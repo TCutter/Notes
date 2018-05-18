@@ -1,9 +1,3 @@
-## 一、简介
-JavScrip由三个部分组成
-- ECMAScript : 提供核心语言功能
-- DOM ：提供访问和操作网页内容的方法和接口
-- BOM ：提供与浏览器交互的方法和接口
-
 ## 二、基础知识
 ### 2.1  Javascript类型
 JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和1种引用（复杂）数据类型：Object
