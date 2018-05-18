@@ -8,7 +8,7 @@ JavScrip由三个部分组成
 ### 2.1  Javascript类型
 JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和1种引用（复杂）数据类型：Object
 
-#### 2.1.1  数据类型
+**2.1.1  数据类型**
 1. number
 	- 数据格式：
 
@@ -140,7 +140,7 @@ obj.valueOf();	//返回对象本身；
 obj.toString();	//"[object Object]"
 ```
 
-#### 2.1.2  引用类型
+**2.1.2  引用类型**
 1. array
 2. function
 3. Object
@@ -154,7 +154,7 @@ var b = new a();
 console.log(b.constructor === a); //true
 ```
 
-#### 2.1.3 操作符
+**2.1.3 操作符**
 1. typeof操作符
 有6种可能的值
 
@@ -281,7 +281,7 @@ delete obj.name;
 'name' in obj; //false
 ```
 
-#### 2.1.4 变量类型和内存
+**2.1.4 变量类型和内存**
 1. 基本类型和引用类型变量的区别
 - 基本类型不能添加属性，而引用类型可以；
 - 复制变量值：
@@ -302,9 +302,3 @@ console.log(a); //5
  b.name = 'cm';
  console.log(a.name); //cm
 ```
-
-### 2.2 面向对象
-#### 概念
-面向对象的核心思想是将真实世界中的各种复杂关系，抽象成一个个对象，然后由对象之间分工合作，从而完成对真实世界的模拟
-
-### 2.3  原型和原型链
