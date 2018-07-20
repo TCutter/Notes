@@ -64,7 +64,7 @@ $ git reset --hard 36134533
 
 ### 工作区和暂存区
 
-![工作区和暂存区示意图](../Style/images/git/stage.PNG)
+![工作区和暂存区示意图](/Style/images/git/stage.PNG)
 
 比如 *TCutter.github.io* 就是一个工作区，*.git* 就是 Git 的版本库，Git为我们自动创建的第一个分支 *master*，以及指向 *master* 的一个指针叫 *HEAD*
 

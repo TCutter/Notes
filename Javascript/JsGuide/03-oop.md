@@ -148,6 +148,7 @@ function Student(){
 };
 Student.prototype.name = "gx";
 Student.prototype.age = "25";
+Student.prototype.address = ["hubei","wuhan","hongshan"];
 Student.prototype.sayName = function(){
         console.log("My name is " + this.name);
 };
@@ -157,7 +158,7 @@ console.log(Student.prototype === stu1.__proto__ );  // true
 console.log(Student.prototype.constructor === Student);  // true 
 ```
 
-> - a. 在默认情况下，所有原型对象都会自动创建一个 constructor 属性。
+> - a. 在默认情况下，所有原型对象都会自动创建一个 constructor 属性，这个属性包含一个指向 prototype 属性所在函数的指针。
 > - b. Student的每个实例都有一个内部属性( *stu1.__proto\__*)，该属性指向 Student 原型对象。可以通过 Object.getPrototypeOf(stu1) 来获取 Student 的原型( Student.prototype )
 
 2. 对象属性的搜索顺序是先从实例中搜索，然后从原型中搜索
@@ -166,10 +167,14 @@ console.log(Student.prototype.constructor === Student);  // true
 
     ```js
     var stu2 = new Student();
-    stu1.name  = 'cm';  //从原理上分析，添加这个属性只会阻止实例访问原型上定义的属性，而不会修改那个属性
+    stu1.name  = 'cm';  //从原理上分析，添加这个属性只会阻止实例访问原型上定义的属性，而不会修改那个属性 (但如果该属性为引用类型，则会修改该属性)
+    stu1.address.push("关谷");
 
     console.log(stu1.name); //'cm'  -- 来自实例
     console.log(stu2.name); //'gx'  -- 来自原型
+
+    console.log(stu1.address); //["hubei", "wuhan", "hongshan", "关谷"]
+    console.log(stu2.address); //["hubei", "wuhan", "hongshan", "关谷"]
 
     console.log(stu1.hasOwnProperty('name'));   // true
 
@@ -250,7 +255,7 @@ try{
     console.log(e);
 }
 ```
-![原型](../../Style/images/javascript/prototype.png)
+![原型](/Style/images/javascript/prototype.PNG)
 
 **3.2.3 构造函数和原型组合模式(推荐用法)**
 
@@ -271,5 +276,185 @@ Person.prototype.getName = function(){
 ```
 
 ### 3.3 继承
+JavaScript 靠原型链实现继承
 
 **3.3.1 原型链**
+
+基本思想：利用原型让一个引用类型对象继承另一个引用类型对象的属性和方法。
+
+概念：每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针，而实例都包含一个指向原型对象的内部指针。如果我们让原型对象（*SubType.prototype*）等于另一个类型（*SuperType*）的实例，此时的原型对象（*SubType.prototype*）将包含一个指向另一个原型（*SuperType.prototype*）的指针，相应的，另一个原型（*SuperType.prototype*）中也包含着一个指向另一个构造函数（*SuperType*）的指针。假如另一个原型又是另一个类型的实例，如此层层递进，就构成了实例与原型的链条。这就是原型链。
+
+```js
+function SuperType(){
+    this.property = true;
+};
+
+SuperType.prototype.getSuperValue = function(){
+    return this.property;
+};
+
+function SubType(){
+    this.subProperty = false;
+};
+
+SubType.prototype = new SuperType();
+SubType.prototype.getSubValue = function(){
+    return this.subProperty;
+}
+
+var ins = new SubType();
+console.log(ins.getSuperValue());   //true
+console.log(ins.constructor);   //SuperType; SubType.prototype.constructor 已被指向了 SuperType
+```
+![原型链](/Style/images/javascript/prototype_chain.PNG)
+
+1. ins 实例中属性（方法）调用步骤：
+    - 搜索实例；
+    - 搜索 SubType.prototype；
+    - 搜索 SuperType.prototype；
+
+2. 默认的原型
+
+    所有的引用类型都继承 Object 对象，因此 SubType 继承了 SuperType，而 SuperType 继承了 Object
+
+3. 原型与实例的关系
+    - instanceof：测试实例与原型链中出现过的构造函数
+    ```js
+    console.log(ins instanceof Object); //true
+    console.log(ins instanceof SuperType); //true
+    console.log(ins instanceof SubType); //true
+    ```
+
+    - isPrototypeOf():检测原型链中出现过的原型
+    ```js
+    console.log(Object.prototype.isPrototypeOf(ins)); //true
+    console.log(SuperTypes.prototype.isPrototypeOf(ins)); //true
+    console.log(SubType.prototype.isPrototypeOf(ins)); //true
+    ```
+
+4. 原型链的问题
+
+    - 原型中包含引用类型值的问题：在通过原型实现继承时，原型实际上会变成另一个类型的实例。因此，原先实例属性也就成了现在的原型属性。
+
+    ```js
+    function SuperType(){
+        this.color = ["red","blue","green"];
+        this.name = "gx";
+    };
+    function SubType(){
+    }
+    SubType.prototype = new SuperType();
+
+    var instance1 = new SubType();
+    instance1.color.push("black"); 
+    instance1.name = "cm";
+    
+    var instance2 = new SuperType();
+    console.log(instance2.color);   //["red", "blue", "green"]
+    console.log(instance2.name); // "gx"
+
+    var instance3 = new SubType();
+    console.log(instance3.color);   //["red", "blue", "green", "black"]
+    console.log(instance3.name); // "gx"  
+    ```
+
+    - 创建子类型的实例时，不能向父类的构造函数传递参数
+
+
+**3.3.2 借用构造函数**
+
+1. 传递参数：相对于原型链，借用构造函数可以向父类型构造函数传递参数
+
+```js
+function SuperType(name){
+    this.name = name;
+}
+
+function SubType(name){
+    SuperType.call(this,name);  //继承了SuperType，同时还传递了参数
+    this.age = 25;
+}
+
+var instance = new SubType("gx");
+console.log(instance.name); //"gx"
+console.log(instance.age); //25
+```
+
+2. 存在的问题 ：只能继承构造函数中定义的属性和方法（与原型链不同）
+
+```js
+function SuperType(name){
+    this.name = name;
+    this.sayName1 = function(){
+        console.log(this.name);
+    }
+}
+SuperType.prototype.sayName2 = function(){
+    console.log(this.name);
+}
+
+function SubType(name){
+    SuperType.call(this,name);  //继承了SuperType，同时还传递了参数
+    this.age = 25;
+}
+
+var instance = new SubType("gx");
+instance.sayName1();    //"gx"
+instance.sayName2();    //throe an error
+```
+
+**3.3.3 组合继承**
+
+使用原型链对原型的属性和方法继承，使用借造构造函数实现对实例属性的继承。这样，既实现了函数的复用，又保证每个实例有自己的属性；
+
+```js
+function SuperType(name){
+    this.name = name;
+    this.color = ["red","blue","green"];
+};
+
+SuperType.prototype.sayName = function(){
+    console.log(this.name);
+};
+
+function SubType(name,age){
+    SuperType.call(this,name);
+    this.age = age;
+}
+
+SubType.prototype = new SuperType();
+SubType.prototype.sayAge = function(){
+    console.log(this.age);
+};
+
+var instance1 = new SubType("gx",24);
+instance1.color.push("black");
+console.log(instance1.color);   //["red", "blue", "green", "black"]
+instance1.sayName();    //"gx"
+instance1.sayAge(); //24
+
+var instance2 = new SubType("cm",27);
+console.log(instance2.color);   //["red", "blue", "green"]
+instance2.sayName();    //cm
+instance2.sayAge(); //27
+```
+
+**3.3.4 原型式继承**
+
+1. [Object.create(Base) 和 new Base() 的区别](https://blog.csdn.net/blueblueskyhua/article/details/73135938)
+
+- Object.create(Base) 是ECMAScript2015 的方法 : 创建一个具有指定原型且可选择性地包含指定属性的对象
+```js
+Object.create= functions(Base){
+    var F = function(){};
+    F.prototype = Base;
+    return new F();
+}
+```
+
+- new Base()
+```js
+var o1 = new Object();
+o1.__proto__ = Base.prototype;
+Base.call(o1);
+```

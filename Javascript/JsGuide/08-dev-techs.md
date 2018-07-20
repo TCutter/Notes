@@ -138,7 +138,7 @@ b. event坐标
 
 - event.x、event.y:设置或获取鼠标指针位置相对于父文档的 x、y坐标
 
-![event坐标图鉴](../../Style/images/javascript/event_position.PNG)
+![event坐标图鉴](/Style/images/javascript/event_position.PNG)
 
 12. [call、apply和bind](https://www.cnblogs.com/pssp/p/5215621.html);
 
