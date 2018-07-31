@@ -112,4 +112,40 @@ let实际上为 JavaScript 新增了块级作用域。
 
 ### 基本用法
 
-const 声明一个只读的常亮，一旦声明，常量的值就不能改变
+const 声明一个只读的常量，一旦声明，常量的值就不能改变。
+
+与 C++ 中的常量一样，当声明一个复合类型时，const 只是保证变量指向的内存地址不变。因此将一个对象声明为常量时要十分小心。
+
+```js
+const foo = {};
+foo.prop = "123"; //可以为对象正常添加属性
+console.log(foo);   //123
+
+foo = {};   //将 foo指向另一个对象就会报错
+```
+
+如果真想将对象冻结，应该使用 [Object.freeze](https://www.cnblogs.com/snandy/p/5278474.html) 方法
+
+```js
+const foo = Object.freeze({});
+
+// 常规模式时，下面一行不起作用；
+// 严格模式时，该行会报错
+foo.prop = '123'; 
+```
+
+## 4. 顶层对象
+
+顶层对象，在浏览器环境指的是window对象，在 Node 指的是global对象。ES5 之中，顶层对象的属性与全局变量是等价的 。
+
+在 ES6 中，var 和 function  声明的全局变量，依旧是顶层对象的属性；另一方面， let、const 和 class 声明的全局变量，不属于顶层对象的属性
+
+```js
+var a = 1;
+// 如果在 Node 的 REPL 环境，可以写成 global.a
+// 或者采用通用方法，写成 this.a
+window.a // 1
+
+let b = 1;
+window.b // undefined
+```

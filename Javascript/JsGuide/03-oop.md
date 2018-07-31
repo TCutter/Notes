@@ -439,11 +439,70 @@ instance2.sayName();    //cm
 instance2.sayAge(); //27
 ```
 
+缺点：组合继承会使子类型实例在实例和原型中存在两组父类型的属性
+
+```js
+function SuperType(name){
+    this.name = name;
+}
+
+SuperType.sayName = function(){
+    console.log(this.name);
+};
+
+function SubType(name){
+    SuperType.call(this,name);
+    this.age = '25';
+}
+SubType.prototype = new SuperType();
+
+var ins = new SubType("gx");
+```
+
+结果：
+
+![组合继承](/Style/images/javascript/combine_inherit.PNG)
+
+
 **3.3.4 原型式继承**
 
-1. [Object.create(Base) 和 new Base() 的区别](https://blog.csdn.net/blueblueskyhua/article/details/73135938)
+借助原型基于已有的对象创建新对象，同时还不必因此创建自定义类型。
 
-- Object.create(Base) 是ECMAScript2015 的方法 : 创建一个具有指定原型且可选择性地包含指定属性的对象
+```js
+/*先创建一个临时的构造函数，将传入的对象作为构造函数逇原型，最后返回这个临时类型的一个新实例*/
+function object(o){
+    var F = function(){};
+    F.prototype = o;
+    return new F();
+}
+```
+
+```js
+var person ={
+    name : "gx",
+    friends:['xy','mq','cm']
+}
+
+var anotherperson = object(person);
+anotherperson.name = 'gxx';
+anotherperson.friends.push('wmh');
+
+var yetperson = object(person);
+yetperson.name = 'gxxx';
+yetperson.friends.push('zkl');
+```
+输出：
+
+person.friends 被 anotherperson 和 yetperson 共享
+![原型式继承](/Style/images/javascript/prototype_inherit.PNG)
+
+原理：
+一个对象作为另一个对象的基础。先将初始对象传给 object() 函数，然后对函数返回的对象进行修改。实际上是对原始对象进行了一层浅复制。
+
+
+[Object.create(Base) 和 new Base() 的区别](https://blog.csdn.net/blueblueskyhua/article/details/73135938)
+
+- Object.create(Base) 是ECMAScript2015 的方法 : 创建一个具有指定原型且可选择性地包含指定属性的对象。
 ```js
 Object.create= functions(Base){
     var F = function(){};
@@ -451,10 +510,49 @@ Object.create= functions(Base){
     return new F();
 }
 ```
+Object.create() 可以传入两个参数，当只传入一个参数时效果与 object() 一样。
 
 - new Base()
 ```js
+// 内部实现
 var o1 = new Object();
 o1.__proto__ = Base.prototype;
 Base.call(o1);
+```
+
+**3.3.4 寄生式继承（个人觉得很鸡肋）** 
+
+```js
+function createAnother(original){
+    var clone = object(original);
+    clone.sayHi =  function(){
+        console.log("hi");
+    };
+    return clone;
+}
+
+var person = {
+    name:"gx",
+    friends:[1,2,3]
+};
+
+var anotherPerson = createAnother(person);
+anotherPerson.sayHi();
+
+/*
+anotherPerson 不仅具有 person 所有的属性和方法，而且还有自己定义的 sayHi() 方法
+*/
+```
+
+**3.3.5 寄生组合式继承（推荐）** 
+
+优点：保留 组合继承 的优点，解决组合继承会调用两次超类型构造函数的问题。
+
+```js
+function SuperType(name){
+    this.name = name;
+    this.colors = ["red","blue","green"];
+};
+
+SuperType
 ```
