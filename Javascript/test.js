@@ -2,7 +2,7 @@
  * @Author: xiao.guo 
  * @Date: 2018-07-27 16:43:42 
  * @Last Modified by: xiao.guo
- * @Last Modified time: 2018-07-31 17:36:15
+ * @Last Modified time: 2018-08-01 10:17:39
  */
 
 function SuperType(name){
@@ -29,3 +29,11 @@ function inheritPrototype(subType,superType){
     proto.constructor = subType;
     subType.prototype = proto;
 };
+
+inheritPrototype(SubType,SuperType);
+
+SubType.prototype.sayColors = function(){
+    console.info("My color is " + this.colors[0]);
+};
+
+var a = new SubType("gx");

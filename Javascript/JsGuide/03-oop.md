@@ -255,7 +255,7 @@ try{
     console.log(e);
 }
 ```
-![原型](/Style/images/javascript/prototype.PNG)
+![原型](/Style/images/javascript/01.PNG)
 
 **3.2.3 构造函数和原型组合模式(推荐用法)**
 
@@ -306,7 +306,7 @@ var ins = new SubType();
 console.log(ins.getSuperValue());   //true
 console.log(ins.constructor);   //SuperType; SubType.prototype.constructor 已被指向了 SuperType
 ```
-![原型链](/Style/images/javascript/prototype_chain.PNG)
+![原型链](/Style/images/javascript/02.PNG)
 
 1. ins 实例中属性（方法）调用步骤：
     - 搜索实例；
@@ -461,7 +461,7 @@ var ins = new SubType("gx");
 
 结果：
 
-![组合继承](/Style/images/javascript/combine_inherit.PNG)
+![组合继承](/Style/images/javascript/03.PNG)
 
 
 **3.3.4 原型式继承**
@@ -494,7 +494,8 @@ yetperson.friends.push('zkl');
 输出：
 
 person.friends 被 anotherperson 和 yetperson 共享
-![原型式继承](/Style/images/javascript/prototype_inherit.PNG)
+
+![原型式继承](/Style/images/javascript/04.PNG)
 
 原理：
 一个对象作为另一个对象的基础。先将初始对象传给 object() 函数，然后对函数返回的对象进行修改。实际上是对原始对象进行了一层浅复制。
@@ -546,7 +547,9 @@ anotherPerson 不仅具有 person 所有的属性和方法，而且还有自己�
 
 **3.3.5 寄生组合式继承（推荐）** 
 
-优点：保留 组合继承 的优点，解决组合继承会调用两次超类型构造函数的问题。
+优点：保留 组合继承 的优点，解决 组合继承 会调用两次超类型构造函数的问题。
+
+原理：不必为了指定子类型的原型而调用父类型的构造函数（即 ```SubType.prototype = new SuperType()```），我们需要的只是父类型的一个副本。本质上是使用寄生式继承来继承父类型的原型，然后再将结果指定给子类型的原型。
 
 ```js
 function SuperType(name){
@@ -554,5 +557,34 @@ function SuperType(name){
     this.colors = ["red","blue","green"];
 };
 
-SuperType
+SuperType.prototype.sayName = function(){
+    console.log("My name is " + this.name);
+};
+
+function SubType(name){
+    SuperType.call(this,name);
+};
+
+function inheritPrototype(subType,superType){   
+    var childProto = function(o){
+        function F(){};
+        F.prototype = o;
+        return new F();
+    };
+
+    var proto = childProto(superType.prototype);
+    proto.constructor = subType;
+    subType.prototype = proto;
+};
+inheritPrototype(SubType,SuperType);
+
+SubType.prototype.sayColor = function(){
+    console.info("My color is " + this.colors[0]);
+};
+
+var a = new SubType("gx");
 ```
+
+结果：
+
+![寄生组合式继承](/Style/images/javascript/05.PNG)
