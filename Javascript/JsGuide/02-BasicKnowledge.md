@@ -1,4 +1,5 @@
-## 二、基础知识
+## 二、基础知识<!-- TOC -->
+
 ### 2.1  Javascript类型
 JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和1种引用（复杂）数据类型：Object
 
@@ -136,7 +137,112 @@ obj.toString();	//"[object Object]"
 
 **2.1.2  引用类型**
 1. array
-2. function
+
+	- 定义：``` var colors = [];```
+	- 检测数组： 
+
+		```js
+		console.log(colors instanceof Array);	// true	
+		console.log(Array.isArray(colors));	// true	ES5方法
+		```
+	- 方法：
+
+		```js
+		var colors = ["red","green","blue"]
+
+		colors.join("||");	//	返回：red||green||blue
+		```
+		- 插入
+
+		```js
+		colors.push("white"); //返回数组长度 4 , colors = ["red","green","blue","white"]
+		colors.pop(); // 返回 “white”,  colors = ["red","green","blue"]
+		colors.unshift("white"); // 返回数组长度 3 , colors = ["white""red","green","blue"]
+		colors.shift();	// 返回 “white”, colors =  ["red","green","blue"]
+		```
+		
+		- 排序
+
+		```js
+		colors.reverse(); // 返回 ["blue", "green", "red"]，colors = ["blue", "green", "red"]
+		
+		var num =  [2,4,1,3,5];
+		num.sort(function(a,b){return a-b;});	//返回  [1, 2, 3, 4, 5] ， num = [1, 2, 3, 4, 5]
+		```
+		
+		- 操作
+		```js
+		//concat
+		var colors2 = colors.concat("yellow",["orange","black"]);
+		console.log(colors);	// ["blue", "green", "red"]
+		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
+
+		//slice
+		var colors3 = colors2.slice(1);
+		var colors4 = colors2.slice(1,2);
+		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
+		console.log(colors3);	//["green", "red", "yellow", "orange", "black"].包含结尾
+		console.log(colors4);	// ["green"].不包含结尾
+
+		//splice
+		var colors5 = colors2.splice(1,2);	//参数：要删除的第一项的位置和删除的项数
+		console.log(colors2); //["blue", "yellow", "orange", "black"]
+		console.log(colors5); //["green", "red"]
+
+		var colors6 = colors2.splice(0,1,"green",["red","purple"]);	// 参数：起始位置，要删除的项数，要插入的项
+		console.log(colors2); //["green", ["red","purple"], "yellow", "orange", "black"]
+		console.log(colors6); //["blue"]
+		```
+
+		- 位置
+		
+		```js
+		colors2.indexOf("yellow");	//2
+		colors2.lastIndexOf("yellow");	//2
+		```
+
+		- 遍历
+
+		```js
+		/*
+		every : 每一项返回 true 结果才返回 true;
+		some : 只要有一项返回 true 结果就返回 true;
+		filter : 对数组中的每一项运行给定函数，返回该函数会返回 true 的项组成的数组;
+		forEach : 对数组中的每一项运行给定函数，没有返回值;
+		map : 对数组中的每一项运行给定函数，返回每次函数调用的结果组成的数组;
+		*/
+
+		var nums = [2,1,4,2,5,6,3,3,5];
+		var result1 = nums.filter(function(num){
+			return (num>2);
+		});
+
+		var result2 = nums.map(function(num){
+			return (num>2);
+		});
+		console.log(result1);	// [4, 5, 6, 3, 3, 5]
+		console.log(result2);	//  [false, false, true, false, true, true, true, true, true]
+		```
+		
+2. Date
+
+起始时间 ： 1970年1月1日
+
+API:
+
+|方法|含义|
+|---|---|
+|getTime()|返回毫秒数，与 valueof() 返回的值相同|
+|getFullYear()|取得4位数年份(2018而非18)|
+|getYear()|返回年份(118)|
+|getMonth()|返回日期中的月份，0表示1月|
+|getDate()|返回日期中的天数，1 - 31|
+|getDay()|返回日期中的星期几，0表示星期天，6表示星期六|
+|getHours()|返回日期中的小时数，0 - 23|
+|getMinutes()|返回日期中的分钟数， 0 - 59|
+|getSeconds()|返回日期中的秒数， 0 - 59|
+|getMillseonds()|返回日期中的毫秒数|
+
 3. Object
 
 ```javascript
@@ -147,6 +253,20 @@ function a(){
 var b = new a();
 console.log(b.constructor === a); //true
 ```
+4. 正则表达式
+
+	[三十分钟入门正则表达式](http://deerchao.net/tutorials/regex/regex.htm)
+
+5. 基本包装类型
+
+	- Boolean
+
+	- Number
+
+	- String
+
+6. Math 对象
+
 
 **2.1.3 操作符**
 1. typeof操作符
@@ -287,7 +407,9 @@ var b = a;
 b = 2;
 console.log(a); //5
 
-/* 引用类型变量复制时，同样会将存储在变量对象中的值复制一份到新变量分配的空间中。不同的是，这个副本实际上是一个指向存储在堆中的某个对象的指针。复制操作结束后，两个变量实际上将引用同一个对象。因此，改变其中一个变量就会影响到另一个变量
+/* 引用类型变量复制时，同样会将存储在变量对象中的值复制一份到新变量分配的空间中。
+不同的是，这个副本实际上是一个指向存储在堆中的某个对象的指针。
+复制操作结束后，两个变量实际上将引用同一个对象。因此，改变其中一个变量就会影响到另一个变量
  */
  var a = {
 	 name : 'gx'
@@ -296,3 +418,84 @@ console.log(a); //5
  b.name = 'cm';
  console.log(a.name); //cm
 ```
+- 浅拷贝和深拷贝
+
+```js
+/*
+借助 $.extend(bool,obj1,obj2) 实现对象的拷贝
+定义：
+浅拷贝（false 默认）：如果第二个参数对象有的属性第一个参数对象也有，
+那么不会进行相同参数内部的比较，直接将第一个对象的相同参数覆盖;
+
+深拷贝（true）：如果第二个参数对象有的属性第一个参数对象也有，还要继续
+在这个相同的参数向下一层找，比较相同参数的对象中是否还有不一样的属性，如
+果有，将其继承到第一个对象，如果没有，则覆盖。
+*/
+
+var a = {name : 'gx'};
+ var b= {};
+$.extend(false,b, a);
+ b.name = 'cm';
+ console.log(a.name); // gx
+```
+
+2. 没有块级作用域
+
+ES6 中通过 使用 let 或 const 定义变量可以解决这个问题；
+
+### 2.2  函数
+
+**2.2.1 基础**
+
+1. arguments
+
+	- 函数内可以通过 arguments 对象来访问函数的参数数组。而且修改 arguments 的值会对应的修改命名参数的值，但反过来却不行。
+	
+	- arguments 还有一个名为 callee 的属性， 指向拥有 arguments 的函数
+
+	```js
+	function factorial(num){
+		if(num <=1) return 1;
+		else 
+			return num * arguments.callee(num-1);	// 使用 factorial(num-1) 也可以,但是函数耦合性太高，不建议使用
+	}
+	```
+
+	- caller属性(ES5)，表示调用当前函数的函数的引用,如果是在全局作用域中调用，则其值为 null
+
+	```js
+	function  outer(){
+		inner()
+	};
+
+	function inner(){
+		console.log(arguments.callee.caller);
+	};
+
+	outer(); // （显示 outer 中的源代码）
+	inner(); // null 
+	```
+	
+
+2. 没有重载：后定义的函数会覆盖前面定义的函数
+
+3. length : 每个函数都有 length 属性，其值为函数参数的个数
+
+4. apply() 和 call() : 在特定的作用域中调用函数，实际上是设置函数体内的 this 对象的值
+
+ 	[call、apply和bind](https://www.cnblogs.com/pssp/p/5215621.html);
+
+	```js
+	var a = {
+		name:"gx",
+		sayName:function(){
+			console.log(this.name);
+		}
+	};
+
+	var b = a. sayName;
+
+	/* 即将 sayName() 函数中的 this 对象指向 a (用 a 代替 this ))*/
+	b.call(a);	// gx
+	```
+
