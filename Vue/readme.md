@@ -187,3 +187,232 @@ new Vue({
 - **.self** : 只有当事件在该元素本身（不是子元素）触发时，才触发回调
 - **.once** ： 事件只触发一次
 - **.passive** ： 立即触发事件的默认行为，与 **.prevent** 一起使用时 **.prevent**  会被覆盖
+
+
+#### v-model：数据双向绑定
+
+> v-model只能用于表单元素。如 input、select、checkbox、textarea
+
+```html
+<!-- html -->
+<div id="app">
+    <form action="#">
+        <input type="text" id="username" v-model="myAccount.username">
+        <input type="password" id="pwd" v-model="myAccount.userpwd">
+        <input type="submit" v-on:click="submit1" value="注册">
+    </form>
+</div>
+
+<!-- script -->
+<script>    
+new Vue({
+        el: '#app',
+        //上面的标签中采用v-model进行双向数据绑定，数据会自动更新到data里面来
+        data: {
+            name: 'smyhvae',
+            myAccount: {username: '', userpwd: ''}
+        },
+        //在methods里绑定各种方法，根据业务需要进行操作
+        methods: {
+            submit1: function () {
+                alert(this.myAccount.username + "  pwd=" + this.myAccount.userpwd);
+            }
+        }
+    });
+</script>
+```
+
+#### 利用 v-bind 绑定 class
+
+1. 在数组中使用 对象
+
+```html
+<!-- html -->
+<h1 :class="[ {'my-active':flag} ]">我是cutter，生命壹号</h1>
+
+<!-- script -->
+<script>  
+new Vue({
+            el: '#app',
+            data: {
+                flag: true
+            }
+        });
+</script>
+```
+
+2. 直接使用对象
+
+```html
+<!-- html -->
+<h1 :class="classObj">我是cutter，生命壹号</h1>
+
+<!-- script -->
+<script>  
+new Vue({
+            el: '#app',
+            data: {
+                classObj:{
+                    active:true,
+                    not-active:false
+                }
+            }
+        });
+</script>
+```
+
+#### 利用 v-bind 绑定 style
+
+1. 直接使用对象
+
+```html
+<!-- html -->
+<div id="app">
+    <h1 :style="styleObj">我是cutter，生命壹号</h1>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+                el: '#app',
+                data: {
+                    styleObj: { 
+                        color: 'red',
+                         'font-size': '20px',
+                         'text-align': 'center'
+                        }
+                }
+            });
+</script>
+```
+
+2. 样式数组
+
+```html
+<!-- html -->
+<div id="app">
+    <h1 :style="[ styleObj1, styleObj2 ]">我是cutter，生命壹号</h1>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+    el: '#app',
+    data: {
+        styleObj1: { color: 'red', 'font-size': '20px' },
+        styleObj2: { 'font-style': 'italic' }
+    }
+});
+</script>
+```
+
+#### v-for：模板遍历
+
+1. 数组遍历
+
+```html
+<!-- html -->
+<div id="app">
+    <ul>
+        <li v-for="(item,index) in arr1">值：{{item}} --- 索引：{{index}}</li>
+    </ul>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+    el: '#app',
+    data: {
+        list: [1, 2, 3]
+    }
+});
+</script>
+```
+
+2. 对象遍历
+
+```html
+<!-- html -->
+<div id="app">
+    <ul>
+        <!-- 括号里如果写两个参数：则第一个参数代表value，第二个参数代表key -->
+        <li v-for="(value,key) in obj1">值：{{value}} --- 键：{{key}} </li>
+
+        <!-- 括号里如果写三个参数：则第一个参数代表value，第二个参数代表key，第三个参数代表index -->
+        <li v-for="(value,key,index) in obj1">值：{{value}} --- 键：{{key}} --- index：{{index}} </li>
+    </ul>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+    el: '#app',
+    data: {
+        obj1: {
+            name: 'smyhvae',
+            age: '26',
+            gender: '男'
+        }
+    }
+});
+</script>
+```
+
+3. 数字遍历
+
+```html
+<!-- 注意：如果使用 v-for 遍历数字的话，前面的 myCount 值从 1 开始算起 -->
+<li v-for="myCount in 10">这是第 {{myCount}}次循环</li>
+```
+
+4. key 
+
+> 在 Vue 2.2.0+ 版本里，当在组件中使用 v-for 时，key 属性是必须要加上的。
+
+```html
+<!-- html -->
+<div id="app">
+    <ul>
+        <li v-for="item in list" :key="item.id">值：{{value}} --- 键：{{key}} </li>
+    </ul>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+    el: '#app',
+    data: {
+        list: [
+                { id: 1, name: 'smyh' },
+                { id: 2, name: 'vae' },
+                { id: 3, name: 'smyhvae' },
+                { id: 4, name: 'xiaoming' },
+                { id: 5, name: 'xiaohong' }
+        ]
+    }
+});
+</script>
+```
+
+#### v-if \ v-show: 元素的隐藏和显示（删除/添加）
+
+> v-if：删除/添加
+> 
+> v-show：设置 display 属性
+
+```html
+<!-- html -->
+<div id="app">
+    <div v-if="isShow">我是盒子</div>
+</div>
+
+<!-- script -->
+<script>  
+new Vue({
+    el: '#app',
+    data: {
+        isShow: true
+    }
+});
+</script>
+```
