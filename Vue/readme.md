@@ -1,5 +1,7 @@
 ## Vue入门知识整理
 
+[原文](https://github.com/smyhvae/Web/tree/master/21-Vue%E5%9F%BA%E7%A1%80)
+
 ### 利用 vue-cli 新建工程
 
 安装 vue-cli
@@ -394,7 +396,7 @@ new Vue({
 </script>
 ```
 
-#### v-if \ v-show: 元素的隐藏和显示（删除/添加）
+#### v-if \ v-show: 元素的隐藏和显示（删除添加/设置 display 属性）
 
 > v-if：删除/添加
 > 
@@ -416,3 +418,195 @@ new Vue({
 });
 </script>
 ```
+
+#### v-on 的按键修饰符及自定义指令
+
+1. 内置按键修饰符
+
+ .enter、.tab、.delete、.esc、.space、up、down、left、right
+
+ 比如：
+ -  @keyup.enter = 'addData' : 按下enter 键后 执行 addData() 方法
+ -  @keyup.113 = 'addData' : 按下 F2 键（113）后 执行 addData() 方法
+
+ 2. 自定义全局按键修饰符
+
+ ```js
+ Vue.config.keyCodes.f2 = 113;
+ @keyup.f2 = 'addData'; // 如果没有上一行代码，则此行代码无效
+ ```
+
+ 3. 自定义全局指令 Vue.directive()
+
+ ```html
+ <!-- html -->
+ <input type="text" id="search" v-model="name" v-color="'green'"> 
+ <!--green 如果去掉单引号，就成了变量-->
+
+ <!-- script -->
+ <script>
+ /*
+    自定义 v-color 指令，让文本获取焦点
+    第一个参数，自动以指令的名称，
+    第二个参数，为一个包含指令相关函数的对象
+ */
+ Vue.directive('color',{
+     // 每个函数的第一个参数为 el，表示被绑定了指令的 JS 对象（DOM对象）
+     bind:function(el,binding){ 
+         /* 每当指令绑定到元素上的时候，会立即执行这个 bind 函数,此时元素还未插入到DOM中的时候，【只执行一次】*/  
+         // 第二个参数用来拿到传递的参数
+
+        console.log(binding.name); //打印结果：color
+        console.log(binding.value); //打印结果：green
+        console.log(binding.expression);  //'green'
+
+        el.style.color = binding.value
+     },
+     inserted:function(el){   
+         /*元素插入到DOM中的时候，会执行 inserted 函数【触发1次】*/
+         el.focus();
+         // 和JS行为有关的操作，最好在 inserted 中去执行，放置 JS行为不生效
+     },
+    updated: function (el) {  
+        /* 当VNode更新的时候，会执行 updated， 【可能会触发多次】*/
+    }
+ })
+ </script>
+ ```
+
+ 简写 ：
+ 
+ ```js
+ // 相当于 bind 和 updated 公用同一个函数
+ Vue.directive('color', function (el, binding) {
+            el.style.color = binding.value
+})
+ ```
+
+ 4. 自定义私有指令
+ 
+ 在某一个 vue 对象内部自定义的指令称之为私有指令。这种指令只有在当前vue对象的el指定的监管区域有用。
+
+  ```html
+ <!-- html -->
+ <input type="text" id="search" v-model="name" v-fontsize="'15px'"> 
+ 
+ <!-- script -->
+ <script>
+new Vue({
+    el:"#app",
+    data:{
+        name:"t_cutter"
+    },
+    directives:{
+        'fontsize':{
+            bind:function(el,binding){
+                el.style.fontSize = binding.value;
+            }
+        }
+    }
+});
+ </script>
+ ```
+
+ ### 生命周期
+
+ 生命周期函数可以分为3类
+
+ #### 创建期间的生命周期函数
+
+ 1. beforeCreate : 实例刚在内存中创建，还未初始化 data 和 methods;
+ 2. created：data 和 methods 已初始化,还没有开始编译模板，可以在此处发送 ajax 请求；
+ 3. beforeMount：模板已编译完成，还未加载到界面中；
+ 4. mounted：模板已加载到界面中（mounted之后，表示 **真实DOM渲染完了，可以操作DOM了**）
+
+ ```js
+ <script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'hello vuejs'
+        },
+        // 这是第1个生命周期函数，表示实例完全被创建出来之前，会执行它
+        beforeCreate: function () {
+            console.log('01 beforeCreate', this.msg);
+            //注意：在 beforeCreate 生命周期函数执行的时候，data 和 methods 中的 数据都还没有没初始化
+        },
+
+        // 这是第2个生命周期函数
+        created: function () {
+            console.log('02 created', this.msg);
+            //注意：如果要调用 methods 中的方法，或者操作 data 中的数据，最早，只能在 created 中操作
+        },
+
+        // 这是第3个生命周期函数，表示 模板已经在内存中编辑完成了，但是尚未把模板渲染到页面中
+        beforeMount: function () {
+            console.log('03 beforeMount', this.msg);
+            // 在 beforeMount 执行的时候，页面中的元素，还没有被真正替换过来，只是之前写的一些模板字符串
+        },
+
+        // 这是第4个生命周期函数，表示，内存中的模板，已经真实的挂载到了页面中，用户已经可以看到渲染好的页面了
+        mounted: function () {
+            console.log('04 mounted', this.msg);
+            // 注意： mounted 是 实例创建期间的最后一个生命周期函数，当执行完 mounted 就表示，实例已经被完全创建好了
+            // 此时，如果没有其它操作的话，这个实例，就静静的 躺在我们的内存中，一动不动
+        }
+    });
+
+</script>
+ ```
+
+ #### 运行期间的生命周期函数
+
+ 1. beforeUpdate：状态更新之前执行此函数， 此时 data 中的状态值是最新的，但是界面上显示的 数据还是旧的，因为此时还没有开始重新渲染DOM节点
+ 2. 实例更新完毕之后调用此函数，此时 data 中的状态值 和 界面上显示的数据，都已经完成了更新，界面已经被重新渲染好了。
+
+ #### 销毁期间的生命周期函数
+ 1. beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。（可以在beforeDestory里清除定时器、或清除事件绑定）
+
+2. destroyed：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+
+
+![生命周期示意图](/Style/images/vue/02.png)
+
+
+### Ajax
+
+首先需要引入 [vue-resource.js](https://github.com/pagekit/vue-resource/tree/master)  插件
+
+#### get 请求
+```js
+this.$http.get(url,[config]).then(responce=>{
+    var result = responce.body; // responce.body即为服务器返回的数据
+},error=>{
+    
+})
+```
+
+#### post 请求
+
+```js
+this.$http.post(url,body,[config]).then(responce=>{
+    
+},error=>{
+    
+})
+```
+
+#### JSONP
+
+由于浏览器的安全性限制，默认不允许Ajax发起跨域（协议不同、域名不同、端口号不同）的请求。
+
+原理：通过动态创建script标签的形式，用script标签的src属性，代表api接口的url，因为script标签不存在跨域限制。JSONP只支持Get请求
+
+```js
+this.$http.post('www.baidu.com?id=1',[config]).then(responce=>{
+    
+},error=>{
+    
+})
+```
+
+#### axiso (vue2.0)
+
+### 动画
