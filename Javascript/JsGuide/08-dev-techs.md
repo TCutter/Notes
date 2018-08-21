@@ -147,3 +147,13 @@ b. event坐标
 <script type='test/javascript' defer='defer' src='example.js'></script>
 ```
 脚本立即下载，但是会被延迟到整个页面都解析完毕后再运行。
+
+14. URI编码
+
+- encodeURI() 和 decodeURI()
+
+	不会对属于 URI 的特殊字符进行编码，如冒号、正斜杠、问号和井字号。常用于整个 URI 的编码
+
+- encodeURIComponent() 和 decodeURIComponent()
+
+	对所有非标准字符编码。主要用于对 URI 中的某一段进行编码
