@@ -306,6 +306,7 @@ var ins = new SubType();
 console.log(ins.getSuperValue());   //true
 console.log(ins.constructor);   //SuperType; SubType.prototype.constructor 已被指向了 SuperType
 ```
+
 ![原型链](/Style/images/javascript/02.PNG)
 
 1. ins 实例中属性（方法）调用步骤：
@@ -461,8 +462,7 @@ var ins = new SubType("gx");
 
 结果：
 
-![组合继承](/Style/images/javascript/03.PNG)
-
+![组合继承](/Style/images/javascript/03.png)
 
 **3.3.4 原型式继承**
 
@@ -495,7 +495,7 @@ yetperson.friends.push('zkl');
 
 person.friends 被 anotherperson 和 yetperson 共享
 
-![原型式继承](/Style/images/javascript/04.PNG)
+![原型式继承](/Style/images/javascript/04.png)
 
 原理：
 一个对象作为另一个对象的基础。先将初始对象传给 object() 函数，然后对函数返回的对象进行修改。实际上是对原始对象进行了一层浅复制。
@@ -587,4 +587,4 @@ var a = new SubType("gx");
 
 结果：
 
-![寄生组合式继承](/Style/images/javascript/05.PNG)
+![寄生组合式继承](/Style/images/javascript/05.png)
