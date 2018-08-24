@@ -1,0 +1,6 @@
+<div id = "app">
+    <input type="button" value="Toggle" @click = "flag!=flag">
+    <transition enter-active-class="animated rollOut" enter-active-class="animated rollIn">
+        <h1 v-if="flag">这是一个H1标签</h1>
+    </transition>
+</div>

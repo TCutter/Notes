@@ -607,6 +607,97 @@ this.$http.post('www.baidu.com?id=1',[config]).then(responce=>{
 })
 ```
 
+[ajax请求](Demo/04-Ajax/get.html)
+
 #### axiso (vue2.0)
 
 ### 动画
+
+#### 过渡类名
+
+与 transition 标签结合使用
+
+- enter
+    - v-enter : 动画进入之前的初始状态；
+    - v-enter-to : 动画进入之后的结束状态；
+    - v-enter-active : 动画进入的时间段
+
+- leave
+    - v-leave : 动画离开之前的初始状态；
+    - v-leave-to : 动画离开之后的结束状态；
+    - v-leave-active : 动画离开的时间段
+
+
+```html
+<!-- html -->
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+    <transition>
+        <h3 v-show="flag">Guess What</h3>
+    </transition>
+</div>
+
+<!-- css -->
+.v-enter,
+.v-leave-to {
+    opacity: 0;
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: all 1s ease;
+
+}
+
+<!-- js -->
+new Vue({
+        el: "#app",
+        data: {
+            flag: false
+        }
+    });
+```
+
+![过渡示意图](/Style/images/vue/03.png)
+
+[自定义过渡类名](Demo/05.html)
+
+#### 调用第三方动画库
+
+css类库 [animate.css](https://daneden.github.io/animate.css/)
+
+```html
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<div id = "app">
+    <input type="button" value="Toggle" @click = "flag=!flag">
+    <transition enter-active-class="animated fadeOut" leave-active-class="animated fadeIn" :duration = "{enter:1000,leave:500}">    <!-- duration设置动画持续时间 -->
+        <h1 v-if="flag">这是一个H1标签</h1>
+    </transition>
+</div>
+```
+
+- 动画的钩子函数(生命周期)
+
+```html
+<!-- 包括4个入场事件和4个离场事件 -->
+    <transition
+        v-on:before-enter="beforeEnter"
+        v-on:enter="enter"
+        v-on:after-enter="afterEnter"
+        v-on:enter-cancelled="enterCancelled"
+
+        v-on:before-leave="beforeLeave"
+        v-on:leave="leave"
+        v-on:after-leave="afterLeave"
+        v-on:leave-cancelled="leaveCancelled"
+    ></transition>
+
+<!-- 如果 transition 中定义了某个事件 （如 enter），那么相应的CSS中定义的样式就不会生效（如 .v-enter） -->
+```
+
+[钩子函数实例](Demo/06.html)
+
+#### 使用 transition-group 实现列表动画
+
+[列表动画](Demo/07.html)

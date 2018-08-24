@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <style>
+        .mode1-enter,
+        .mode1-leave-to{
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .mode1-enter-active,
+        .mode1-leave-active {
+            transition: all 0.8s ease;
+        }
+
+        .mode2-enter,
+        .mode2-leave-to {
+            opacity: 0;
+            transform: translateY(70px);
+        }
+
+        .mode2-enter-active,
+        .mode2-leave-active {
+            transition: all 1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="Toggle Mode1" @click="flag1=!flag1"/>
+        <transition name="mode1">
+            <h3 v-show="flag1">This is mode1</h3>
+        </transition>
+        <br/>
+        <input type="button" value="Toggle Mode2" @click="flag2=!flag2"/>
+        <transition name="mode2">
+            <h3 v-show="flag2">This is mode2</h3>
+        </transition>
+    </div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            flag1:false,
+            flag2:false
+        }
+    })
+</script>
+</html>
