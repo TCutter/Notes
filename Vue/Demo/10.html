@@ -1,3 +1,5 @@
+<!-- 使用 <component> 标签进行组件切换 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,28 +11,24 @@
 </head>
 <body>
     <div id="app">
-         <a href="" @click.prevent="flag=true">登录</a>
-         <a href="" @click.prevent="flag=false">注册</a>
-
-         <login v-if="flag"></login>
-         <register v-else="flag"></register>        
+        <a href="#" @click.prev="compName='login'">登录</a>
+        <a href="#" @click.prev="compName='register'">注册</a>
+       <component :is="compName"></component>
     </div>
-
     <script>
-         Vue.component('login',{
-            template:'<h3>这是一个登录组件</h3>'
+        Vue.component('login',{
+            template:"<h3>这是一个登录组件</h3>"
         });
         Vue.component('register',{
-            template:'<h3>这是一个注册组件</h3>'
-        });       
-        
+            template:"<h3>这是一个注册组件</h3>"
+        });
+
         new Vue({
             el:"#app",
             data:{
-                flag:false
+                compName:"login"
             }
         });
-
     </script>
 </body>
 </html>

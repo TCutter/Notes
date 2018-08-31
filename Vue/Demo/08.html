@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-template></my-template>
+    </div>
+
+    <!-- 定义模板 -->
+    <template id="myAccount">
+        <div>
+            <h2>登录页面</h2>
+            <h2>注册页面</h2>
+        </div>
+    </template>
+    <script>
+        // 定义、注册组件
+        Vue.component('my-template',{
+            template:"#myAccount"
+        });
+
+        new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>
