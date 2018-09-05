@@ -80,11 +80,80 @@
 
 1. [使用v-if和v-else结合进行切换](Demo/09.html)
 
-2. [使用 <component> 标签进行切换](Demo/10.html)
+2. [使用 *component* 标签进行切换](Demo/10.html)
 
 
 ### 组件之间的传值
 
 Vue实例就是一个父组件，而我们自定义的组件（包括全局组件、私有组件）就是子组件。
 
-#### 父组件向子组件传值
+#### 子组件使用父组件的属性
+
+父组件可以通过 *props* 属性向子组件传值。
+
+[实例 11](Demo/11.html)
+
+传值步骤：
+1. 在子组件的 props 属性中声明父组件传递的数据；
+2. 定义子组件的模板时，使用 props 中的属性；
+3. 父组件在引用子组件时，进行属性绑定
+
+data 与 props 中数据的区别
+1. 子组件中的 data 数据，并不是通过 父组件传递过来的，而是子组件自身私有的；props 中的数据，都是通过 父组件 传递给子组件的。
+2. data中的数据是可读可写的；props中的属性只是可读的，重新赋值会报错
+
+#### 子组件调用父组件的方法
+父组件通过事件绑定机制，将父组件的方法传递给子组件
+
+[实例 11](Demo/11.html)
+
+
+#### 父组件使用子组件的属性
+
+```html
+<!-- html -->
+ <div id="app">
+        <component1 @parent-show='show'></component1>
+    </div>
+
+    <!-- 定义子组件的模板 -->
+    <template id="myTemplate">
+        <h2 @click="childClick">我是子组件，点击调用父组件的方法</h2>
+    </template>
+
+<!-- script -->
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: { //父组件的data
+            },
+            methods: { // 定义父组件的方法
+                show: function (arg1, arg2) { //【第二步】父组件里放两个参数，这个两个参数就代表着子组件中的`child 123`、`child 789`
+                    console.log('父组件提供的方法');
+                    console.log('打印子组件传递过来的参数。参数一：' + arg1 + '，参数二：'+ arg2);
+                }
+            },
+            components: {
+                component1: { 
+                    template: '#myTemplate',
+                    data() { // 子组件的data
+                        return {
+                            // content: '子组件私有的数据 content'
+                        }
+                    },
+                    props: [''],
+                    directives: {},
+                    filters: {},
+                    components: {},
+                    methods: {
+                        childClick() {
+                            // 子组件如果要给父组件传递参数，在触发 emit 的时候，通过参数的形式带出去就可以了
+                            // 【第一步】在子组件里，我们带两个参数出去，传给父组件
+                            this.$emit('parent-show', 'child 123', 'child 789');
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+```
