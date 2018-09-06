@@ -1,3 +1,27 @@
+<!-- TOC -->
+
+- [Vue入门知识整理](#vue入门知识整理)
+    - [利用 vue-cli 新建工程](#利用-vue-cli-新建工程)
+    - [基本指令](#基本指令)
+        - [插值表达式 {{}}](#插值表达式-)
+        - [v-cloak](#v-cloak)
+        - [v-text](#v-text)
+        - [v-html](#v-html)
+        - [v-bind 属性绑定](#v-bind-属性绑定)
+        - [v-on: 事件绑定](#v-on-事件绑定)
+        - [v-model：数据双向绑定](#v-model数据双向绑定)
+        - [利用 v-bind 绑定 class](#利用-v-bind-绑定-class)
+        - [利用 v-bind 绑定 style](#利用-v-bind-绑定-style)
+        - [v-for：模板遍历](#v-for模板遍历)
+        - [v-if \ v-show: 元素的隐藏和显示（删除添加/设置 display 属性）](#v-if-\-v-show-元素的隐藏和显示删除添加设置-display-属性)
+        - [v-on 的按键修饰符及自定义指令](#v-on-的按键修饰符及自定义指令)
+    - [动画](#动画)
+        - [过渡类名](#过渡类名)
+        - [调用第三方动画库](#调用第三方动画库)
+        - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
+
+<!-- /TOC -->
+
 ## Vue入门知识整理
 
 [原文](https://github.com/smyhvae/Web/tree/master/21-Vue%E5%9F%BA%E7%A1%80)
@@ -568,48 +592,6 @@ new Vue({
 
 
 ![生命周期示意图](/Style/images/vue/02.png)
-
-
-### Ajax
-
-首先需要引入 [vue-resource.js](https://github.com/pagekit/vue-resource/tree/master)  插件
-
-#### get 请求
-```js
-this.$http.get(url,[config]).then(responce=>{
-    var result = responce.body; // responce.body即为服务器返回的数据
-},error=>{
-    
-})
-```
-
-#### post 请求
-
-```js
-this.$http.post(url,body,[config]).then(responce=>{
-    
-},error=>{
-    
-})
-```
-
-#### JSONP
-
-由于浏览器的安全性限制，默认不允许Ajax发起跨域（协议不同、域名不同、端口号不同）的请求。
-
-原理：通过动态创建script标签的形式，用script标签的src属性，代表api接口的url，因为script标签不存在跨域限制。JSONP只支持Get请求
-
-```js
-this.$http.post('www.baidu.com?id=1',[config]).then(responce=>{
-    
-},error=>{
-    
-})
-```
-
-[ajax请求](Demo/04-Ajax/get.html)
-
-#### axiso (vue2.0)
 
 ### 动画
 

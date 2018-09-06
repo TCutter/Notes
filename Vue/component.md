@@ -1,3 +1,20 @@
+<!-- TOC -->
+
+- [Vue 组件](#vue-组件)
+    - [全局组件](#全局组件)
+    - [使用 components 定义私有组件](#使用-components-定义私有组件)
+    - [为组件添加数据](#为组件添加数据)
+        - [组件切换](#组件切换)
+    - [组件之间的传值](#组件之间的传值)
+        - [子组件使用父组件的属性](#子组件使用父组件的属性)
+        - [子组件调用父组件的方法](#子组件调用父组件的方法)
+        - [父组件使用子组件的属性](#父组件使用子组件的属性)
+    - [通过 ref 属性获取DOM元素](#通过-ref-属性获取dom元素)
+        - [通过 ref 属性获取DOM元素的步骤](#通过-ref-属性获取dom元素的步骤)
+        - [通过 ref 属性获取整个子组件](#通过-ref-属性获取整个子组件)
+
+<!-- /TOC -->
+
 ## Vue 组件
 
 模块化和组件化
@@ -156,4 +173,62 @@ data 与 props 中数据的区别
             }
         });
     </script>
+```
+
+[DEMO-发表评论功能](Demo/12.html)
+
+### 通过 ref 属性获取DOM元素
+
+#### 通过 ref 属性获取DOM元素的步骤
+
+1. 在标签中添加 ref 属性
+    ```html
+    <h2 ref="myTitle">Friyday</h2>
+    ```
+2. 通过 this.$refs.xxx 获取 DOM 元素 
+    ```js
+    console.log(this.$refs.myTitle.innerText)
+    ```
+
+#### 通过 ref 属性获取整个子组件
+
+```html
+<div id="app">
+        <input type="button" value="点击按钮" @click="getElement">
+        <login-component ref="loginTemplate"></login-component>
+    </div>
+
+   <script>
+
+        // 创建 Vue 实例，得到 ViewModel
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                getElement() {
+
+                    //在父组件中，通过ref获取整个子组件，进而获取子组件的data
+                    console.log(this.$refs.loginTemplate.myData)
+
+                    //在父组件中，通过ref获取整个子组件，进而获取子组件的method
+                    this.$refs.loginTemplate.showMethod()
+                }
+            },
+            components: {
+                'login-component': {
+                    template: '<h1>登录组件</h1>',
+                    data() {
+                        return {
+                            myData: '子组件的data'
+                        }
+                    },
+                    methods: {
+                        showMethod() {
+                            console.log('调用子组件的method')
+                        }
+                    }
+                }
+            }
+        });
+    </script>  
 ```
