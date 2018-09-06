@@ -1,0 +1,65 @@
+<!-- 利用钩子函数实现加入购物车动画效果 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .ball {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="Toggle" @click="flag=!flag">
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" @enterCancelled="enterCancelled">
+            <div class="ball" v-show="flag"></div>
+        </transition>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            flag: false
+        },
+        methods: {
+            // 注意： 动画钩子函数的第一个参数：el，表示 要执行动画的那个DOM元素，
+            beforeEnter: function (el) {    //设置动画的初始状态
+                el.style.transform = "translate(0,0)";
+                console.info("beforeEnter");
+            },
+            enter: function (el, done) {    // 表示动画 开始之后的样式，这里可以设置小球完成动画之后的，结束状态（也可以在 afterEnter 中设置）
+                el.offsetWidth; //这句话，没有实际的作用，但是，如果不写，出不来动画效果。可以认为 el.offsetWidth 会强制动画刷新
+                el.style.transform = "translate(150px,300px)";
+                el.style.transition = 'all 1s ease';
+                console.info("enter");
+                done(); // done 是 afterEnter 函数的引用，不执行 done , afterEnter 就不会执行
+            },
+            afterEnter: function (el) { 
+                // el.style.transform = "translate(150px,300px)";
+                // el.style.transition = 'all 1s ease';
+
+                this.flag=!this.flag;       
+                console.info("afterEnter");
+
+            },
+            enterCancelled: function (el) {
+                console.info("enterCancelled");
+            }
+        }
+    });
+</script>
+
+</html>

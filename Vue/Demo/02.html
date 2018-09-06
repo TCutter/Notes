@@ -1,0 +1,91 @@
+<!-- 
+    简易计算器 (优化版)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <style>
+        label{
+            width: 100px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="div1">
+        <label >Number 1 : </label>
+        <input type="text" v-model="obj.n1" />
+        <br />
+        <label >Operator : </label>
+        <select v-model="obj.opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <br />
+        <label >Number 2 : </label>
+        <input type="text" v-model="obj.n2" />
+        <br />
+
+        <label >Result : </label>
+        <input type="text" v-model="result" />
+    </div>
+</body>
+<script>    
+    var app = new Vue({
+        el: '#div1',
+        data: {
+            obj: {
+                n1: "",
+                n2: "",
+                opt: "+",
+            },
+            result: ""
+        },
+        watch: { //监听器，内容被修改时触发
+            obj: {
+                handler: function () {
+                    var numN1 = parseFloat(this.obj.n1);
+                    var numN2 = parseFloat(this.obj.n2);
+                    if(!isNaN(numN1) && !isNaN(numN2) && this.obj.opt){
+                        // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+                        _.debounce(this.cal, 500)();
+                    }
+                },
+                deep: true   //深度监听，用来监听数组和对象
+            }
+        },
+        methods: {
+            cal: function () {
+                switch (this.obj.opt) {
+                    case '+':
+                        this.result = parseInt(this.obj.n1) + parseInt(this.obj.n2)
+                        break;
+                    case '-':
+                        this.result = parseInt(this.obj.n1) - parseInt(this.obj.n2)
+                        break;
+                    case '*':
+                        this.result = parseInt(this.obj.n1) * parseInt(this.obj.n2)
+                        break;
+                    case '/':
+                        this.result = parseInt(this.obj.n1) / parseInt(this.obj.n2)
+                        break;
+                }
+            }
+        }
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!--
+    字符串闪烁
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+        <div id="div1">
+            <div>{{msg}}</div>
+            <br />
+            <button @click = 'startMethod'>startMethod</button>
+            <button @click = 'stopMethod'>stopMethod</button>
+        </div>
+</body>
+<script>    
+ new Vue({
+    el: '#div1',
+    data: {
+        msg: 't_cutter',
+        intervalId :null
+    },
+    methods:{
+        startMethod:function(){
+            var self = this;
+            if(this.intervalId) return;
+            this.intervalId = setInterval(function(){
+                var start = self.msg.slice(0,1);
+                var end = self.msg.slice(1);
+                self.msg = end + start;
+            },500);           
+        },
+        stopMethod:function(){
+            clearInterval(this.intervalId);
+            this.intervalId = null;
+        }
+    }
+  });
+    
+</script>
+</html>

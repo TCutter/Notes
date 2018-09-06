@@ -142,6 +142,19 @@ b. event坐标
 
 12. [call、apply和bind](https://www.cnblogs.com/pssp/p/5215621.html);
 
+
+```js
+var join = Function.prototype.call.bind(Array.prototype.join);
+join("abc","|");	// "a|b|c"
+
+//equals to
+Array.prototype.join.call("abc","|");
+
+Array.prototype.join.apply("abc",["|"]);
+```
+
+[借用方法](https://www.zcfy.cc/article/borrowing-methods-in-javascript-by-david-shariff-794.html)
+
 13. 延迟脚本
 ```javascript
 <script type='test/javascript' defer='defer' src='example.js'></script>

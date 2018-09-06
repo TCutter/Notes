@@ -1,0 +1,34 @@
+<!-- 使用 <component> 标签进行组件切换 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <a href="#" @click.prev="compName='login'">登录</a>
+        <a href="#" @click.prev="compName='register'">注册</a>
+       <component :is="compName"></component>
+    </div>
+    <script>
+        Vue.component('login',{
+            template:"<h3>这是一个登录组件</h3>"
+        });
+        Vue.component('register',{
+            template:"<h3>这是一个注册组件</h3>"
+        });
+
+        new Vue({
+            el:"#app",
+            data:{
+                compName:"login"
+            }
+        });
+    </script>
+</body>
+</html>

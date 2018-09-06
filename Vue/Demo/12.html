@@ -1,0 +1,97 @@
+<!-- 发表评论功能的实现-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <cmt-box @parent-comment="comment"></cmt-box>
+
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人： {{item.user}}</span>
+                {{item.content}}
+            </li>
+        </ul>
+    </div>
+
+    <template id="myTemp">
+        <div>
+            <div class="form-group">
+                <label for="">评论人：</label>
+                <input type="text" class="form-control" v-model="user">
+            </div>
+            <div class="form-group">
+                <label for="">评论内容：</label>
+                <textarea type="text" class="form-control" v-model="content"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="button" value="发表评论" class="btn btn-primary" @click="postComment">
+            </div>
+        </div>
+    </template>
+
+    <script>
+        var commentBox = {
+            template:"#myTemp",
+            data:function(){
+                return {
+                    user:'',
+                    content:''
+                }
+            },
+            props:[],
+            methods:{
+                postComment:function(){
+                    var cmt = {
+                        id:Date.now(),
+                        user:this.user,
+                        content:this.content
+                    };
+                    this.$emit('parent-comment',cmt);
+                    this.user = this.content = '';
+                }
+            }
+        };
+
+        var app =new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    // {id:Date.now(),user:'李白',content:'床前明月光'},
+                    // {id:Date.now(),user:'黄巢',content:'满城尽带黄金甲'},
+                    // {id:Date.now(),user:'唐伯虎',content:'我笑他人看不穿'}
+                ]
+            },
+            created:function() {
+                 //页面一开始加载的时候，就去读取 localStorage 中已存在的评论list
+                 this.loadComments();
+            },
+            methods:{
+                loadComments:function(){
+                    // localStorage 中的数据会永久保存在浏览器中
+                    var list = JSON.parse(localStorage.getItem('content') || '[]');
+                    this.list = list;
+                },
+                comment:function(cmt){
+                    this.list.unshift(cmt);
+                    localStorage.setItem('content',JSON.stringify(this.list));
+                }
+            },
+            components:{
+                'cmt-box': commentBox
+            }
+        });
+    </script>
+</body>
+
+</html>
