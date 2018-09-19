@@ -86,6 +86,7 @@ JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和
 
 		```js
 		console.log(Number('tg'));   // NaN
+		console.log(Number("123tb")); // NaN
 		console.log(Number(''));   // 0
  		console.log(Number('0011'));  // 11
 		console.log(Number(true));   //1
@@ -193,14 +194,14 @@ obj.toString();	//"[object Object]"
 		console.log(colors);	// ["blue", "green", "red"]
 		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
 
-		//slice
+		//slice:不修改原始数组
 		var colors3 = colors2.slice(1);
 		var colors4 = colors2.slice(1,2);
 		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
 		console.log(colors3);	//["green", "red", "yellow", "orange", "black"].包含结尾
 		console.log(colors4);	// ["green"].不包含结尾
 
-		//splice
+		//splice:修改原始数组
 		var colors5 = colors2.splice(1,2);	//参数：要删除的第一项的位置和删除的项数
 		console.log(colors2); //["blue", "yellow", "orange", "black"]
 		console.log(colors5); //["green", "red"]

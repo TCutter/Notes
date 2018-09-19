@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/Javascript\\test.js"
+            "program": "${workspaceFolder}/Javascript/JsGuide/test/client.js"
         }
     ]
 }
