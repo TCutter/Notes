@@ -1,9 +1,25 @@
-## 二、基础知识<!-- TOC -->
+<!-- TOC -->
+
+- [二、基础知识](#二基础知识)
+    - [2.1  Javascript类型](#21--javascript类型)
+        - [2.1.1  数据类型](#211--数据类型)
+        - [2.1.2 引用类型](#212-引用类型)
+        - [2.1.3 操作符](#213-操作符)
+        - [2.1.4 变量类型和内存](#214-变量类型和内存)
+    - [2.2  函数](#22--函数)
+        - [2.2.1 基础](#221-基础)
+        - [2.2.2 闭包](#222-闭包)
+        - [2.2.3 立即执行函数](#223-立即执行函数)
+        - [2.2.4 单例模式](#224-单例模式)
+
+<!-- /TOC -->
+
+## 二、基础知识
 
 ### 2.1  Javascript类型
 JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和1种引用（复杂）数据类型：Object
 
-**2.1.1  数据类型**
+#### 2.1.1  数据类型
 1. number
 	- 数据格式：
 
@@ -70,6 +86,7 @@ JS有5种基础数据类型：Number、Boolean、String、Null、Undefined，和
 
 		```js
 		console.log(Number('tg'));   // NaN
+		console.log(Number("123tb")); // NaN
 		console.log(Number(''));   // 0
  		console.log(Number('0011'));  // 11
 		console.log(Number(true));   //1
@@ -135,7 +152,7 @@ obj.valueOf();	//返回对象本身；
 obj.toString();	//"[object Object]"
 ```
 
-**2.1.2  引用类型**
+#### 2.1.2 引用类型
 1. array
 
 	- 定义：``` var colors = [];```
@@ -177,14 +194,14 @@ obj.toString();	//"[object Object]"
 		console.log(colors);	// ["blue", "green", "red"]
 		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
 
-		//slice
+		//slice:不修改原始数组
 		var colors3 = colors2.slice(1);
 		var colors4 = colors2.slice(1,2);
 		console.log(colors2);	// ["blue", "green", "red", "yellow", "orange", "black"]
 		console.log(colors3);	//["green", "red", "yellow", "orange", "black"].包含结尾
 		console.log(colors4);	// ["green"].不包含结尾
 
-		//splice
+		//splice:修改原始数组
 		var colors5 = colors2.splice(1,2);	//参数：要删除的第一项的位置和删除的项数
 		console.log(colors2); //["blue", "yellow", "orange", "black"]
 		console.log(colors5); //["green", "red"]
@@ -268,7 +285,7 @@ console.log(b.constructor === a); //true
 6. Math 对象
 
 
-**2.1.3 操作符**
+#### 2.1.3 操作符
 1. typeof操作符
 有6种可能的值
 
@@ -395,7 +412,7 @@ delete obj.name;
 'name' in obj; //false
 ```
 
-**2.1.4 变量类型和内存**
+#### 2.1.4 变量类型和内存
 1. 基本类型和引用类型变量的区别
 - 基本类型不能添加属性，而引用类型可以；
 - 复制变量值：
@@ -439,13 +456,20 @@ $.extend(false,b, a);
  console.log(a.name); // gx
 ```
 
-2. 没有块级作用域
+2. 作用域
 
+内部函数可以通过 作用域链 访问外部环境的变量和函数，而外部函数不能访问内部函数
+
+3. 没有块级作用域
+
+Js 中没有块级作用域 ```{ }``` ，只有函数作用域
 ES6 中通过 使用 let 或 const 定义变量可以解决这个问题；
+
+
 
 ### 2.2  函数
 
-**2.2.1 基础**
+#### 2.2.1 基础
 
 1. arguments
 
@@ -499,3 +523,100 @@ ES6 中通过 使用 let 或 const 定义变量可以解决这个问题；
 	b.call(a);	// gx
 	```
 
+#### 2.2.2 闭包
+
+定义：闭包是指有权访问另一个函数作用域中的变量的函数。创建闭包的方式就是在一个函数中创建另一个函数。
+
+```js
+function Test(){
+	var a = 0 ;
+	
+	return function(){
+		a++;
+		return a ;
+	}
+}
+
+var func = Test();
+
+func();	// 1
+func();	// 2
+func();	// 3
+```
+
+闭包的优点：
+	1. 封装私有变量；
+	2. 访问函数内部的变量；
+	3. 变量一直保存在内存中，不会在上级函数被调用后被自动清除
+
+闭包的缺点：
+	变量会一直存在内存中
+
+
+其他副作用：
+	闭包只能取得包含函数中任何变量的最后一个值。
+
+```js
+	function CreateFunction(){
+		var result = [];
+		for(var i=0;i<5;i++){
+			result[i] = function(){
+				return i ;
+			}
+		}
+		return result;
+	}
+```
+
+调用该函数会返回一个函数数组，但每个函数都会返回 5;
+
+应改为如下方法：
+
+```js
+function CreateFunction(){
+		var result = [];
+		for(var i=0;i<5;i++){
+			result[i] = function(num){
+				return function(){
+					return num;
+				}
+			}(i);
+		}
+		return result;
+	}
+```
+
+#### 2.2.3 立即执行函数
+
+```js
+(function(){
+	console.log("123");
+})()
+```
+
+特点：在匿名函数中定义的任何变量在函数执行之后都会被销毁
+
+作用：通常用在全局作用域中，限制在全局作用域中添加过多的函数和变量以污染全局环境。此方法可以 **减少** 闭包中内存一直占用的问题
+
+#### 2.2.4 单例模式
+
+概念：一个类只有一个实例(一般的 JS 插件都使用这种方法)
+
+```js
+var ins = (function(){
+	var name = "T_Cutter";
+	var age = "22";
+s
+	function Human(){
+		this.sayName = function(){
+			console.log(name);
+		};
+
+		this.sayAge = function(){
+			console.log(age);
+		}
+	};
+
+	return new Human();
+})()
+```
