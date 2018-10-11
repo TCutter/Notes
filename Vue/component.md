@@ -236,6 +236,8 @@ navigation 组件的内容为
 
 #### 访问元素 & 组件
 
+本小结的所有方法都不是响应式的，而且推荐使用 [**Vuex**](https://vuex.vuejs.org/zh/) 代替
+
 1. 访问根实例
 在每个 new Vue 实例的子组件中，其根实例可以通过 $root 属性进行访问
 
@@ -279,15 +281,45 @@ this.$root.baz()
 <base-input ref="usernameInput"></base-input>
 ```
 
-4. 依赖注入
+在父组件使用子组件实例
 
-然后通过 **$refs** 属性访问这个 **base-input** 实例
+```js
+this.$ref.usernameInput
+```
+
+然后父组件通过 **$refs** 属性访问这个 **base-input** 实例
 
 ```js
 this.$refs.usernameInput 
 ```
 
+4. 依赖注入
+可以看作为一部分“大范围有效的 prop”
+
+是为了解决访问父辈组建数据时，容易造成混乱的问题
+
+首先在父组件中注册
+
+```js
+provide: function () {
+  return {
+    getMap: this.getMap
+  }
+}
+```
+
+然后在子组件中添加该属性
+```js
+inject: ['getMap']
+```
+
 #### 程序化的事件侦听器
+
+#### 组件之间循环引用
+
+#### 控制更新
+1. 使用 **$forceUpdate** 强制更新
+2. 使用 **v-once** 只计算一次组件内容
 
 ### 组件之间的传值
 
