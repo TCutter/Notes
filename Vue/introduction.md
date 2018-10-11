@@ -1,24 +1,29 @@
 <!-- TOC -->
 
 - [Vue入门知识整理](#vue入门知识整理)
-    - [利用 vue-cli 新建工程](#利用-vue-cli-新建工程)
-    - [基本指令](#基本指令)
-        - [插值表达式 {{}}](#插值表达式-)
-        - [v-cloak](#v-cloak)
-        - [v-text](#v-text)
-        - [v-html](#v-html)
-        - [v-bind 属性绑定](#v-bind-属性绑定)
-        - [v-on: 事件绑定](#v-on-事件绑定)
-        - [v-model：数据双向绑定](#v-model数据双向绑定)
-        - [利用 v-bind 绑定 class](#利用-v-bind-绑定-class)
-        - [利用 v-bind 绑定 style](#利用-v-bind-绑定-style)
-        - [v-for：模板遍历](#v-for模板遍历)
-        - [v-if \ v-show: 元素的隐藏和显示（删除添加/设置 display 属性）](#v-if-\-v-show-元素的隐藏和显示删除添加设置-display-属性)
-        - [v-on 的按键修饰符及自定义指令](#v-on-的按键修饰符及自定义指令)
-    - [动画](#动画)
-        - [过渡类名](#过渡类名)
-        - [调用第三方动画库](#调用第三方动画库)
-        - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
+  - [利用 vue-cli 新建工程](#利用-vue-cli-新建工程)
+  - [基本指令](#基本指令)
+    - [插值表达式 {{}}](#插值表达式-)
+    - [v-cloak](#v-cloak)
+    - [v-text](#v-text)
+    - [v-html](#v-html)
+    - [v-bind 属性绑定](#v-bind-属性绑定)
+    - [v-on: 事件绑定](#v-on-事件绑定)
+    - [v-model：数据双向绑定](#v-model数据双向绑定)
+    - [v-for：模板遍历](#v-for模板遍历)
+    - [v-if 和 v-show: 元素的隐藏和显示](#v-if-和-v-show-元素的隐藏和显示)
+    - [自定义指令](#自定义指令)
+  - [计算属性和侦听器](#计算属性和侦听器)
+    - [计算属性](#计算属性)
+    - [侦听器](#侦听器)
+  - [生命周期](#生命周期)
+    - [创建期间的生命周期函数](#创建期间的生命周期函数)
+    - [运行期间的生命周期函数](#运行期间的生命周期函数)
+    - [销毁期间的生命周期函数](#销毁期间的生命周期函数)
+  - [动画](#动画)
+    - [过渡类名](#过渡类名)
+    - [调用第三方动画库](#调用第三方动画库)
+    - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
 
 <!-- /TOC -->
 
@@ -85,6 +90,12 @@ npm run dev
         }
     });
 </script>
+```
+
+使用 v-once 可以实现一次性差值
+
+```html
+<div v-once>这是一次性差值用法：{{message}}</div>
 ```
 
 #### v-cloak
@@ -178,83 +189,14 @@ setTimeout(function(){
 </script>
 ```
 
-#### v-on: 事件绑定
 
-1. 
-```html
-<!-- html -->
- <div id="div1">
-    <div>{{name}}</div>
-    <br />
-    <button v-on:click = 'reversename'>Reverse Name</button>
-</div>
-
-<!-- script -->
-<script>    
-new Vue({
-    el: '#div1',
-    data: {
-        name: 't_cutter',
-    },
-    methods:{
-        reversename:function(){
-              this.name = this.name.split("").reverse().join("");
-          }
-    }
-}); 
-</script>
-```
-
-2. 事件修饰符
-
-- **.stop** : 阻止冒泡，即 event.stopPropagation()
-- **.prevent** : 阻止默认行为，即 event.preventDefault()
-- **.capture** : 使用 事件捕获（而不是事件冒泡） 的方法监听事件
-- **.self** : 只有当事件在该元素本身（不是子元素）触发时，才触发回调
-- **.once** ： 事件只触发一次
-- **.passive** ： 立即触发事件的默认行为，与 **.prevent** 一起使用时 **.prevent**  会被覆盖
-
-
-#### v-model：数据双向绑定
-
-> v-model只能用于表单元素。如 input、select、checkbox、textarea
-
-```html
-<!-- html -->
-<div id="app">
-    <form action="#">
-        <input type="text" id="username" v-model="myAccount.username">
-        <input type="password" id="pwd" v-model="myAccount.userpwd">
-        <input type="submit" v-on:click="submit1" value="注册">
-    </form>
-</div>
-
-<!-- script -->
-<script>    
-new Vue({
-        el: '#app',
-        //上面的标签中采用v-model进行双向数据绑定，数据会自动更新到data里面来
-        data: {
-            name: 'smyhvae',
-            myAccount: {username: '', userpwd: ''}
-        },
-        //在methods里绑定各种方法，根据业务需要进行操作
-        methods: {
-            submit1: function () {
-                alert(this.myAccount.username + "  pwd=" + this.myAccount.userpwd);
-            }
-        }
-    });
-</script>
-```
-
-#### 利用 v-bind 绑定 class
+**利用 v-bind 绑定 class**
 
 1. 在数组中使用 对象
 
 ```html
 <!-- html -->
-<h1 :class="[ {'my-active':flag} ]">我是cutter，生命壹号</h1>
+<h1 :class="{my-active:flag}">我是cutter，生命壹号</h1>
 
 <!-- script -->
 <script>  
@@ -280,14 +222,14 @@ new Vue({
             data: {
                 classObj:{
                     active:true,
-                    not-active:false
+                    'not-active':false
                 }
             }
         });
 </script>
 ```
 
-#### 利用 v-bind 绑定 style
+**利用 v-bind 绑定 style**
 
 1. 直接使用对象
 
@@ -330,6 +272,258 @@ new Vue({
     }
 });
 </script>
+```
+
+3. 组件绑定
+
+```html
+<!-- 假设 attr 是一个对象 ，可以用如下方法进行绑定 -->
+<my-template v-bind="attr"></my-template>
+
+<!-- 等价与 -->
+<my-template v-bind:title="attr.title" v-bind:content="attr.content"></my-template>
+
+```
+
+#### v-on: 事件绑定
+
+**监听事件** 
+1. 
+```html
+<!-- html -->
+ <div id="div1">
+    <div>{{name}}</div>
+    <br />
+    <button v-on:click = 'reversename'>Reverse Name</button>
+</div>
+
+<!-- script -->
+<script>    
+new Vue({
+    el: '#div1',
+    data: {
+        name: 't_cutter',
+    },
+    methods:{
+        reversename:function(){
+              this.name = this.name.split("").reverse().join("");
+          }
+    }
+}); 
+</script>
+```
+
+2. 事件修饰符
+
+- **.stop** : 阻止冒泡，即 event.stopPropagation()
+- **.prevent** : 阻止默认行为，即 event.preventDefault()
+- **.capture** : 使用 事件捕获（而不是事件冒泡） 的方法监听事件
+- **.self** : 只有当事件在该元素本身（不是子元素）触发时，才触发回调
+- **.once** ： 事件只触发一次
+- **.passive** ： 立即触发事件的默认行为，与 **.prevent** 一起使用时 **.prevent**  会被覆盖
+
+修饰符可以串联使用
+
+3. 传递参数
+
+```html
+ <div id="div1">
+    <button v-on:click = "reversename('message',$event)">Reverse Name</button>
+</div>
+```
+
+```js
+// ...
+methods: {
+  warn: function (message, event) {
+    // 现在我们可以访问原生事件对象
+    if (event) event.preventDefault()
+    alert(message)
+  }
+}
+```
+
+**按键修饰符**
+1. 内置按键修饰符
+
+ .enter、.tab、.delete、.esc、.space、up、down、left、right
+
+ 比如：
+ -  @keyup.enter = 'addData' : 按下enter 键后 执行 addData() 方法
+ -  @keyup.113 = 'addData' : 按下 F2 键（113）后 执行 addData() 方法
+
+ 2. 自定义全局按键修饰符
+
+ ```js
+ Vue.config.keyCodes.f2 = 113;
+ @keyup.f2 = 'addData'; // 如果没有上一行代码，则此行代码无效
+ ```
+
+
+```js
+new Vue({
+    el: '#div1',
+    methods:{
+        reversename:function(msg,event){
+              if(event) event.stopPropagation;  // event:原生 Dom 事件对象
+              console.log(msg);
+          }
+    }
+}); 
+```
+
+3. 系统修饰符
+
+- .ctrl
+- .alt
+- .shift
+- .meta
+
+```html
+<!-- Alt + C -->
+<input @keyup.alt.67="clear">
+
+<!-- Ctrl + Click -->
+<div @click.ctrl="doSomething">Do something</div>
+```
+
+.exact 修饰符允许你控制由精确的系统修饰符组合触发的事件。
+
+```html
+<!-- 即使 Alt 或 Shift 被一同按下时也会触发 -->
+<button @click.ctrl="onClick">A</button>
+
+<!-- 有且只有 Ctrl 被按下的时候才触发 -->
+<button @click.ctrl.exact="onCtrlClick">A</button>
+
+<!-- 没有任何系统修饰符被按下的时候才触发 -->
+<button @click.exact="onClick">A</button>
+```
+
+4. 鼠标按钮修饰符
+- .left
+- .middle
+- .right
+
+#### v-model：数据双向绑定
+
+> v-model只能用于表单元素。如 input、select、checkbox、textarea。并且会忽略所有表单元素的 value、checked、selected 特性的初始值而总是将 Vue 实例的数据作为数据来源。
+
+1. text
+```html
+<!-- html -->
+<div id="app">
+    <form action="#">
+        <input type="text" id="username" v-model="myAccount.username">
+        <input type="password" id="pwd" v-model="myAccount.userpwd">
+        <input type="submit" v-on:click="submit1" value="注册">
+    </form>
+</div>
+
+<!-- script -->
+<script>    
+new Vue({
+        el: '#app',
+        //上面的标签中采用v-model进行双向数据绑定，数据会自动更新到data里面来
+        data: {
+            name: 'smyhvae',
+            myAccount: {username: '', userpwd: ''}
+        },
+        //在methods里绑定各种方法，根据业务需要进行操作
+        methods: {
+            submit1: function () {
+                alert(this.myAccount.username + "  pwd=" + this.myAccount.userpwd);
+            }
+        }
+    });
+</script>
+```
+
+2. 复选框
+```html
+<div id='example-3'>
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+  <label for="jack">Jack</label>
+  <input type="checkbox" id="john" value="John" v-model="checkedNames">
+  <label for="john">John</label>
+  <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+  <label for="mike">Mike</label>
+  <br>
+  <span>Checked names: {{ checkedNames }}</span>
+</div>
+```
+
+```js
+new Vue({
+  el: '#example-3',
+  data: {
+    checkedNames: []
+  }
+})
+```
+
+3. 单选按钮
+```html
+<div id="example-4">
+  <input type="radio" id="one" value="One" v-model="picked">
+  <label for="one">One</label>
+  <br>
+  <input type="radio" id="two" value="Two" v-model="picked">
+  <label for="two">Two</label>
+  <br>
+  <span>Picked: {{ picked }}</span>
+</div>
+```
+
+```js
+new Vue({
+  el: '#example-4',
+  data: {
+    picked: ''
+  }
+})
+```
+
+4. 选择框
+```html
+<div id="example-5">
+  <select v-model="selected">
+    <option disabled value="">请选择</option>
+    <option>A</option>
+    <option>B</option>
+    <option>C</option>
+  </select>
+  <span>Selected: {{ selected }}</span>
+</div>
+```
+
+```js
+new Vue({
+  el: '#example-5',
+  data: {
+    selected: ''
+  }
+})
+```
+
+5. 修饰符
+
+- .lazy:在“change”时而非“input”时更新
+
+```html
+<input v-model.lazy="msg" >
+```
+
+- .number:输入自动转成number类型。如果这个值无法被 parseFloat() 解析，则会返回原始的值
+
+```html
+<input v-model.number="age" type="number">
+```
+
+- .trim:自动过滤用户输入的首尾空白字符
+
+```html
+
 ```
 
 #### v-for：模板遍历
@@ -393,6 +587,8 @@ new Vue({
 
 4. key 
 
+> "就地复用"： 如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素。如果数据没有与标签绑定，则会就地复用；如果绑定了而且数据被修改，才会重新渲染。
+
 > 在 Vue 2.2.0+ 版本里，当在组件中使用 v-for 时，key 属性是必须要加上的。
 
 ```html
@@ -420,7 +616,7 @@ new Vue({
 </script>
 ```
 
-#### v-if \ v-show: 元素的隐藏和显示（删除添加/设置 display 属性）
+#### v-if 和 v-show: 元素的隐藏和显示
 
 > v-if：删除/添加
 > 
@@ -443,24 +639,13 @@ new Vue({
 </script>
 ```
 
-#### v-on 的按键修饰符及自定义指令
+Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染.可以通过 Key 来管理不需要复用的元素
 
-1. 内置按键修饰符
+> 当 v-for 和 v-if 处于同一节点时，v-for 的优先级比 v-if 高
 
- .enter、.tab、.delete、.esc、.space、up、down、left、right
+#### 自定义指令
 
- 比如：
- -  @keyup.enter = 'addData' : 按下enter 键后 执行 addData() 方法
- -  @keyup.113 = 'addData' : 按下 F2 键（113）后 执行 addData() 方法
-
- 2. 自定义全局按键修饰符
-
- ```js
- Vue.config.keyCodes.f2 = 113;
- @keyup.f2 = 'addData'; // 如果没有上一行代码，则此行代码无效
- ```
-
- 3. 自定义全局指令 Vue.directive()
+ 1. 自定义全局指令 Vue.directive()
 
  ```html
  <!-- html -->
@@ -507,7 +692,7 @@ new Vue({
 })
  ```
 
- 4. 自定义私有指令
+ 2. 自定义私有指令
  
  在某一个 vue 对象内部自定义的指令称之为私有指令。这种指令只有在当前vue对象的el指定的监管区域有用。
 
@@ -533,14 +718,129 @@ new Vue({
  </script>
  ```
 
- ### 生命周期
+ #### 其他
+ 可以用 $ 获取组件内的属性和方法
+ 
+ ```js
+ var vm = new Vue({
+     el:"#app",
+     data:{
+         message:"123"
+     }
+ });
+ console.log(vm.$message); // {message:"123"}
+ ```
+ 
+### 计算属性和侦听器
+
+#### 计算属性
+
+1. 实例
+  ```html
+ <div id="app">
+    <span>This is a message : {{message}}</span>
+    <br />
+    <span>This is a reverseMessage : {{reverseMessage}}</span>
+ </div>
+ ```
+
+ 计算属性是基于它们的依赖进行缓存的。只在相关依赖发生改变时它们才会重新求值。
+ 如果不希望有缓存，建议用 methods 代替
+ 
+ ```js
+new Vue({
+    el:"#app",
+    data:{
+        message:"Hello world"
+    },
+   computed:{
+        // 计算属性的 getter
+       reverseMessage(){
+            return this.message.split('').reverse().join('');
+       }
+   }
+});
+ ```
+ 
+2. 计算属性的 setter
+有时候需要给计算属性定义一个 setter
+```js
+let vm = new Vue({
+    el:"#app",
+    data:{
+        firstname:"Violet",
+        lastname:"Bergnaum"
+    },
+    computed:{
+        fullname:{
+            get(){
+              return this.firstname + ' ' + this.lastname;  
+            },
+            set(newValue){
+                var names = newValue.split(' ')
+                this.firstName = names[0]
+                this.lastName = names[names.length - 1]
+            }
+        }
+    }
+});
+```
+
+运行 vm.fullName = 'John Doe'; 会调用 setter , vm.firstname 和 vm.lastname 的值也会修改
+
+#### 侦听器
+
+1. 侦听属性改变时触发绑定的侦听事件，不过 **建议用计算属性代替**
+
+```html
+<div id="app">{{fullname}}</div>
+```
+
+```js
+// 侦听属性
+new Vue({
+    el:"#app",
+    data:{
+        firstname:"Violet",
+        lastname:"Bergnaum"
+    },
+    watch:{
+        firstname(val){
+            this.fullname = val + ' ' +this.lastname;
+        },
+        lastname(val){
+            this.fullname = this.firstname + ' ' + val;
+        }
+    }
+});
+```
+
+```js
+// 计算属性
+new Vue({
+    el:"#app",
+    data:{
+        firstname:"Violet",
+        lastname:"Bergnaum"
+    },
+    computed:{
+        fullname(){
+            return this.firstname + ' ' + this.lastname;
+        }
+    }
+});
+```
+
+2. 侦听复杂操作时还是建议使用 watch
+
+### 生命周期
 
  生命周期函数可以分为3类
 
- #### 创建期间的生命周期函数
+#### 创建期间的生命周期函数
 
  1. beforeCreate : 实例刚在内存中创建，还未初始化 data 和 methods;
- 2. created：data 和 methods 已初始化,还没有开始编译模板，可以在此处发送 ajax 请求；
+ 2. created：data 和 methods 已初始化,还没有开始编译模板，**可以在此处发送 ajax 请求**；
  3. beforeMount：模板已编译完成，还未加载到界面中；
  4. mounted：模板已加载到界面中（mounted之后，表示 **真实DOM渲染完了，可以操作DOM了**）
 
@@ -580,13 +880,22 @@ new Vue({
 </script>
  ```
 
- #### 运行期间的生命周期函数
+ 输出
+
+ ```js
+ 01 beforeCreate undefined
+ 02 created hello vuejs
+ 03 beforeMount hello vuejs
+ 04 mounted hello vuejs
+ ```
+
+#### 运行期间的生命周期函数
 
  1. beforeUpdate：状态更新之前执行此函数， 此时 data 中的状态值是最新的，但是界面上显示的 数据还是旧的，因为此时还没有开始重新渲染DOM节点
- 2. 实例更新完毕之后调用此函数，此时 data 中的状态值 和 界面上显示的数据，都已经完成了更新，界面已经被重新渲染好了。
+ 2. updated：实例更新完毕之后调用此函数，此时 data 中的状态值和界面上显示的数据，都已经完成了更新，界面已经被重新渲染好了。
 
- #### 销毁期间的生命周期函数
- 1. beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。（可以在beforeDestory里清除定时器、或清除事件绑定）
+#### 销毁期间的生命周期函数
+1. beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用。（可以在beforeDestory里清除定时器、或清除事件绑定）
 
 2. destroyed：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
 
