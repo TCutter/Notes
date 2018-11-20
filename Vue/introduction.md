@@ -321,6 +321,7 @@ new Vue({
 - **.self** : 只有当事件在该元素本身（不是子元素）触发时，才触发回调
 - **.once** ： 事件只触发一次
 - **.passive** ： 立即触发事件的默认行为，与 **.prevent** 一起使用时 **.prevent**  会被覆盖
+- **.native** : 监听组件根元素的原生事件
 
 修饰符可以串联使用
 
@@ -665,8 +666,8 @@ Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从�
          /* 每当指令绑定到元素上的时候，会立即执行这个 bind 函数,此时元素还未插入到DOM中的时候，【只执行一次】*/  
          // 第二个参数用来拿到传递的参数
 
-        console.log(binding.name); //打印结果：color
-        console.log(binding.value); //打印结果：green
+        console.log(binding.name); //指令名,打印结果：color
+        console.log(binding.value); //指令的绑定值,打印结果：green
         console.log(binding.expression);  //'green'
 
         el.style.color = binding.value
@@ -717,7 +718,15 @@ new Vue({
 });
  </script>
  ```
+ 
+ 3. 钩子函数
+    - bing: 只调用一次，指令第一次绑定到元素时调用。在这里进行一次性的初始化操作
+    - inserted: 被绑定元素插入父节点时调用。**事件绑定写在这里**
+    - update: 所在组件的 VNode 更新时调用
+    - componentUpdated: 指令所在组件的 VNode 及其子 VNode 全部更新后调用
+    - unbind: 只调用一次，指令与元素解绑时调用
 
+    
  #### 其他
  可以用 $ 获取组件内的属性和方法
  
