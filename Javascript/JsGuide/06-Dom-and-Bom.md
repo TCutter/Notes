@@ -1,45 +1,42 @@
 <!-- TOC -->
 
-- [Dom and Bom](#dom-and-bom)
-  - [BOM](#bom)
-    - [window 对象](#window-对象)
-      - [全局作用域](#全局作用域)
-      - [框架](#框架)
-      - [窗口大小与位置](#窗口大小与位置)
-      - [导航和打开窗口](#导航和打开窗口)
-      - [setTimeout 和 setInterval](#settimeout-和-setinterval)
-      - [系统对话框](#系统对话框)
-    - [location 对象](#location-对象)
-      - [查询字符串](#查询字符串)
-      - [位置操作](#位置操作)
-    - [navigator 对象](#navigator-对象)
-    - [history 对象](#history-对象)
-  - [DOM](#dom)
-    - [节点类型](#节点类型)
-      - [Node 类型（基类型）](#node-类型基类型)
-      - [Element 类型](#element-类型)
-      - [Text 类型](#text-类型)
-      - [Document 类型](#document-类型)
-    - [动态脚本/样式](#动态脚本样式)
-    - [其他方法](#其他方法)
-      - [classList](#classlist)
-      - [焦点管理](#焦点管理)
-      - [自定义属性](#自定义属性)
-      - [插入文档](#插入文档)
-      - [scrollIntoView](#scrollintoview)
-      - [元素样式](#元素样式)
-      - [元素大小](#元素大小)
+- [六、 DOM 和 BOM](#六-dom-和-bom)
+  - [6.1 window 对象](#61-window-对象)
+    - [框架](#框架)
+    - [窗口大小与位置](#窗口大小与位置)
+    - [导航和打开窗口](#导航和打开窗口)
+    - [setTimeout 和 setInterval](#settimeout-和-setinterval)
+    - [系统对话框](#系统对话框)
+  - [6.2 location 对象](#62-location-对象)
+    - [查询字符串](#查询字符串)
+    - [位置操作](#位置操作)
+  - [6.3 navigator 对象](#63-navigator-对象)
+  - [6.4 history 对象](#64-history-对象)
+  - [6.5 节点类型](#65-节点类型)
+    - [Node 类型（基类型）](#node-类型基类型)
+    - [Element 类型](#element-类型)
+    - [Text 类型](#text-类型)
+    - [Document 类型](#document-类型)
+  - [6.6 动态脚本/样式](#66-动态脚本样式)
+  - [6.7 其他方法](#67-其他方法)
+    - [classList](#classlist)
+    - [焦点管理](#焦点管理)
+    - [自定义属性](#自定义属性)
+    - [插入文档](#插入文档)
+    - [scrollIntoView](#scrollintoview)
+    - [元素样式](#元素样式)
+    - [元素大小](#元素大小)
 
 <!-- /TOC -->
 
-# Dom and Bom
+## 六、 DOM 和 BOM
 
-## BOM  
+BOM  
 浏览器对象模型
     
-### window 对象
+### 6.1 window 对象
 
-#### 全局作用域
+全局作用域
 在全局作用域定义的对象会自动成为 window 对象的属性
 
 区别：是否可以用 delete 删除
@@ -148,7 +145,7 @@ JS是一个单线程语言,代码运行是其有一个执行队列，setTimeout 
 3. prompt("Who are you?"):会弹出一个文本输入域。点击 OK 按钮返回文本输入域中的内容；点击 Cancel 返回 null
 
 
-### location 对象
+### 6.2 location 对象
 包含并处理网页的 URL
 
 #### 查询字符串
@@ -171,7 +168,7 @@ JS是一个单线程语言,代码运行是其有一个执行队列，setTimeout 
 2. location.replace("www.baidu.com"): 效果与 1 类似，但是使用这种方法跳转后会禁用浏览器的 **后退** 按钮
 3. location.reload(param): 页面重载。如果 param 为 true，那么将强制从服务器重载（而非缓存） 
 
-### navigator 对象
+### 6.3 navigator 对象
 保存浏览器信息
 
 |属性|说明|
@@ -179,7 +176,7 @@ JS是一个单线程语言,代码运行是其有一个执行队列，setTimeout 
 |userAgent|用户代理字符串|
 |plugins|浏览器安装的插件信息的数组|
 
-### history 对象
+### 6.4 history 对象
 
 ```js
 history.go(1);  //前进一页
@@ -189,10 +186,10 @@ history.forward(); //前进一页
 ```
 
 
-## DOM  
+DOM  
 文档对象模型
 
-### 节点类型
+### 6.5 节点类型
 Dom 可以将 Html 和 XML网页描述成一个有多层次节点的树状结构。总共有 *12* 种类型的节点，这些类型都继承至一个基类型。每个节点都有自己的数据、特性和方法，节点之间也存在某种联系
 
 #### Node 类型（基类型）
@@ -349,7 +346,7 @@ let nodeList = div.querySelectorALL('span');    // 返回 div 节点的后代元
 document.getElementsByClassName('my-class'); 
 ```
 
-### 动态脚本/样式
+### 6.6 动态脚本/样式
 ```js
 // 动态脚本
 function loadScript(src){
@@ -369,7 +366,7 @@ function loadStyle(src){
 };
 ```
 
-### 其他方法
+### 6.7 其他方法
 #### classList
 node.classList 返回一个类名数组
 - add(value):添加
