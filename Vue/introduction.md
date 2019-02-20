@@ -24,6 +24,8 @@
     - [过渡类名](#过渡类名)
     - [调用第三方动画库](#调用第三方动画库)
     - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
+  - [Api](#api)
+    - [响应式方法](#响应式方法)
 
 <!-- /TOC -->
 
@@ -141,7 +143,7 @@ setTimeout(function(){
 <div id="app" v-text="message"></div>
 
 <!-- 插值表达式-->
-<div id="app">{{message}}</div>
+<div id="app">test {{message}}</div>
 ```
 
 #### v-html
@@ -640,7 +642,12 @@ new Vue({
 </script>
 ```
 
-Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染.可以通过 Key 来管理不需要复用的元素
+Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染.可以通过 ***Key*** 来管理不需要复用的元素. key 常用在 v-for 指令中
+
+```html
+<div v-if="isShow" key="first">我是盒子</div>
+<div v-else key="second"></div>
+```
 
 > 当 v-for 和 v-if 处于同一节点时，v-for 的优先级比 v-if 高
 
@@ -1001,3 +1008,35 @@ css类库 [animate.css](https://daneden.github.io/animate.css/)
 #### 使用 transition-group 实现列表动画
 
 [列表动画](Demo/07.html)
+
+### Api
+
+#### 响应式方法
+对数据进行赋值时，有些是响应式而有些不是
+
+```js
+var vm = new Vue({
+  data: {
+    items: ['a', 'b', 'c'],
+    user: {
+        name: 'cutter',
+        age: '26'
+    }
+  }
+})
+
+// 非响应性的
+vm.a = 'a' 
+vm.items[1] = 'x'
+vm.items.length = 2
+
+// 响应性的
+Vue.set(vm.items, 1, 'x')
+vm.items = ["d", "e"]
+vm.items.splice(2)
+
+vm.user = Object.assign({}, vm.user, {
+    address: 'wuhan',
+    tel: 'xxxxxx'
+})
+```
