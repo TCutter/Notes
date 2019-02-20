@@ -12,10 +12,11 @@ tags:
 ## A few notes about different programming technology
 
 1. Git
-2. Javascript
-3. Vue
-4. Html/Css
-5. Python
+2. [Javascript](/Javascript/JsGuide/readme.md)
+3. [Vue](/Vue/introduction.md)
+4. Node
+5. Html/Css
+6. Python
 
 ## Web developer's books 
 

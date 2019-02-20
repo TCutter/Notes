@@ -1,24 +1,24 @@
 <!-- TOC -->
 
 - [常用开发技巧](#常用开发技巧)
-    - [数组](#数组)
-        - [获取数组中的随机项](#获取数组中的随机项)
-        - [类数组对象调用数组方法](#类数组对象调用数组方法)
-        - [获取数组中的最大最小值](#获取数组中的最大最小值)
-        - [数组合并](#数组合并)
-        - [数组复制](#数组复制)
-    - [DOM 相关](#dom-相关)
-        - [window.open](#windowopen)
-        - [event对象](#event对象)
-        - [延迟脚本](#延迟脚本)
-    - [Others](#others)
-        - [简化if语句](#简化if语句)
-        - [避免使用new操作符](#避免使用new操作符)
-        - [遍历对象属性](#遍历对象属性)
-        - [JS 静态成员变量（static member variable）](#js-静态成员变量static-member-variable)
-        - [继承](#继承)
-        - [call、apply和bind](#callapply和bind)
-        - [URI编码](#uri编码)
+  - [数组](#数组)
+    - [获取数组中的随机项](#获取数组中的随机项)
+    - [类数组对象调用数组方法](#类数组对象调用数组方法)
+    - [获取数组中的最大最小值](#获取数组中的最大最小值)
+    - [数组合并](#数组合并)
+    - [数组复制](#数组复制)
+  - [DOM 相关](#dom-相关)
+    - [window.open](#windowopen)
+    - [event对象](#event对象)
+    - [延迟脚本](#延迟脚本)
+  - [Others](#others)
+    - [简化if语句](#简化if语句)
+    - [避免使用new操作符](#避免使用new操作符)
+    - [遍历对象属性](#遍历对象属性)
+    - [JS 静态成员变量（static member variable）](#js-静态成员变量static-member-variable)
+    - [继承](#继承)
+    - [call、apply和bind](#callapply和bind)
+    - [URI编码](#uri编码)
 
 <!-- /TOC -->
 ## 常用开发技巧
@@ -122,9 +122,9 @@ b. event坐标
 
 - event.screenX、event.screenY:鼠标相对于用户显示器屏幕左上角的X,Y坐标
 
-- event.x、event.y:设置或获取鼠标指针位置相对于父文档的 x、y坐标
+- event.x、event.y:相当于 event.clientX、event.clientY
 
-![event坐标图鉴](/Style/images/javascript/event_position.PNG)
+![event坐标图鉴](/Style/images/javascript/event_position2.PNG)
 
 #### 延迟脚本
 ```javascript
