@@ -51,8 +51,12 @@
 1. 专用线程会使用<font color='red'>隐式</font>的 MessagePort 实例，MessagePort对象支持 HTML5 中多线程提供的所有功能。当专用线程被创建的时候，MessagePort 的端口消息队列便被主动启用;而共享线程必须显式使用。
 2. 创建方法：专用线程只有URL一个参数；而共享线程创建是如果提供了第二个参数，那么这个参数将被用于作为这个共享线程的名称。
 3. Woker对象和SharedWorker对象
-![这里写图片描述](http://img.blog.csdn.net/20170727211625295?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQWxhZ2lzbWU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissove/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170727211853791?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQWxhZ2lzbWU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+<!-- ![drawImage](/Style/images/javascript/drawImage.png) -->
+
+![这里写图片描述](/Style/images/javascript/worker.png)
+
+![这里写图片描述](/Style/images/javascript/sharedWorker.png)
+
 ```
 //专用线程
 var worker=new Worker('worker.js');
@@ -69,8 +73,10 @@ worker.port.postMessage('123');
 
 #### WebWorker之常用API
 worker线程从上到下同步运行它的代码，worker线程从上到下同步运行它的代码，如果worker注册了message事件处理程序，只要其有可能触发，worker就一直在内存中，不会退出，所以通信完毕后得手动在主线程中terminate或者子线程中close掉，但如果worker没有监听消息，那么当所有任务执行完毕（包括计数器）后，他就会退出。
-<li>1. postMeassge(data):
-子线程与主线程互相传递消息使用的方法	
+
+1. postMeassge(data):
+子线程与主线程互相传递消息使用的方法
+	
 ```
 //var worker =new Worker('worker.js');
 //主线程传消息给子线程
@@ -80,14 +86,17 @@ worker.postMessage(data1);
 postMessage(data2);
 ```
 
-<li>2. terminate():
+2. terminate():
 主线程中终止worker，此后无法再利用其进行消息传递。注意：一旦terminate后，无法重新启用，只能另外创建
+
 ```
 //var worker =new Worker('worker.js');
 worker.terminate();
 ```
-<li>3. onmessage:
+
+3. onmessage:
 主线程、子线程接收消息。可以用addEventListener代替
+
 ```
 //var worker =new Worker('worker.js');
 //主线程接收来自子线程的消息
@@ -100,9 +109,11 @@ onmessage=function(e){
 	var data=e.data;
 };
 ```
-<li>4. MessageEvent：接收消息时用到，消息的实际传递内容为e.data;
-<li>5. message:当有消息发送时，触发该事件。且，消息发送是双向的，消息内容可通过data来获取;
-<li>6. error:出错处理。且错误消息可以通过e.message来获取。
+
+4. MessageEvent：接收消息时用到，消息的实际传递内容为e.data;
+5. message:当有消息发送时，触发该事件。且，消息发送是双向的，消息内容可通过data来获取;
+6. error:出错处理。且错误消息可以通过e.message来获取。
+
 ```
 //var worker =new Worker('worker.js');
 worker.onerror = function(e){
@@ -127,12 +138,11 @@ worker.onerror = function(e){
 3. 各个浏览器对Worker的实现不大一致，例如FF里允许worker中创建新的worker,而Chrome中就不行
 
 #### WebWorker应用
-<li>1. 后台计算：
-```
-/**
-创建一个共享线程用于接收从不同连接发送过来的指令,指令结果处理完成后将结果返回到各个不同的连接用户
-*/
-//Html文件
+1. 后台计算：
+
+```html
+<!-- 创建一个共享线程用于接收从不同连接发送过来的指令,指令结果处理完成后将结果返回到各个不同的连接用户 -->
+
 <!Doctype html>
 <html>
 	<head>
@@ -155,7 +165,9 @@ worker.onerror = function(e){
 </script>
 	</body>
 </html>
+```
 
+```js
 //webworker.js文件
 onmessage=function(e){	//子线程接收来自主线程的消息
 	var data=e.data;
@@ -182,9 +194,10 @@ function divisor(a, b) {
  } 
 ```
 
-<li>2. 使用共享线程处理多用户并发连接
+2. 使用共享线程处理多用户并发连接
       由于线程的构建以及销毁都要消耗很多的系统性能，例如 CPU 的处理器调度，内存的占用回收等，在一般的编程语言中都会有线程池的概念，线程池是一种对多线程并发处理的形式，在处理过程中系统将所有的任务添加到一个任务队列，然后在构建好线程池以后自动启动这些任务。处理完任务后再把线程收回到线程池中，用于下一次任务调用。线程池也是共享线程的一种应用。 （Web2D中有专用线程实现线程池的用法，即创建4个专用线程）
-```
+
+```html
 <!DOCTYPE html> 
 <html> 
 <head> 
@@ -221,7 +234,9 @@ function divisor(a, b) {
 </input> 
 </body> 
 </html>  
+```
 
+```js
 /* 
 * define a connect count to trace connecting 
 * this variable will be shared within all connections 
@@ -255,9 +270,9 @@ function execute_instruction(instruction)
 }
 ```
 
-<li>3.HTML5 线程代理
+3.HTML5 线程代理
 
-```
+```html
 <!DOCTYPE html> 
 <html> 
 <head> 
@@ -283,7 +298,9 @@ function execute_instruction(instruction)
 </output> 
 </body> 
 </html>
+```
 
+```js
 /* 
 * define the country list in the whole word 
 * take following Array as an example 
@@ -357,4 +374,3 @@ function do_calculate(country)
 	 close(); 
 }
 ```
-
