@@ -605,9 +605,5 @@ var a = new SubType("gx");
 ```
 
 结果：
-
-<<<<<<< HEAD
 ![寄生组合式继承](/Style/images/javascript/05.png)
-=======
-![寄生组合式继承](/Style/images/javascript/05.PNG)
->>>>>>> dev-basic
+
