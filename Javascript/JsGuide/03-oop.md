@@ -1,20 +1,21 @@
 <!-- TOC -->
 
 - [三、面向对象](#三面向对象)
-  - [3.1 理解对象](#31-理解对象)
-    - [对象属性](#对象属性)
-    - [读取属性特性](#读取属性特性)
-  - [3.2 创建对象](#32-创建对象)
-    - [构造函数模式](#构造函数模式)
-    - [原型模式](#原型模式)
-    - [构造函数和原型组合模式(推荐用法)](#构造函数和原型组合模式推荐用法)
-  - [3.3 继承](#33-继承)
-    - [原型链](#原型链)
-    - [借用构造函数](#借用构造函数)
-    - [组合继承](#组合继承)
-    - [原型式继承](#原型式继承)
-    - [寄生式继承（个人觉得很鸡肋）](#寄生式继承个人觉得很鸡肋)
-    - [寄生组合式继承（推荐）](#寄生组合式继承推荐)
+    - [理解对象](#理解对象)
+        - [对象属性](#对象属性)
+        - [读取属性特性](#读取属性特性)
+    - [创建对象](#创建对象)
+        - [构造函数模式](#构造函数模式)
+        - [原型模式](#原型模式)
+        - [构造函数和原型组合模式(推荐用法)](#构造函数和原型组合模式推荐用法)
+        - [Class (ES6)](#class-es6)
+    - [继承](#继承)
+        - [原型链](#原型链)
+        - [借用构造函数](#借用构造函数)
+        - [组合继承](#组合继承)
+        - [原型式继承](#原型式继承)
+        - [寄生式继承（个人觉得很鸡肋）](#寄生式继承个人觉得很鸡肋)
+        - [寄生组合式继承（推荐）](#寄生组合式继承推荐)
 
 <!-- /TOC -->
 
@@ -24,7 +25,7 @@
 
 [面向对象：封装、继承、多态](https://www.zhihu.com/question/20275578/answer/26577791?group_id=752158336673132544)
 
-### 3.1 理解对象
+### 理解对象
 #### 对象属性
 
 ECMAScript中有两种属性：数据属性和访问器属性
@@ -138,7 +139,7 @@ console.log(descriptor.value);  // 2004
 console.log(descriptor.configurable);   // false
 ```
 
-### 3.2 创建对象
+### 创建对象
 #### 构造函数模式
 
 每个实例都有自己的方法和属性
@@ -173,6 +174,7 @@ Student.prototype.sayName = function(){
 };
 
 var stu1 = new Student();
+console.log(Student.prototype === Object.getPrototypeOf(stu1));  // true
 console.log(Student.prototype === stu1.__proto__ );  // true
 console.log(Student.prototype.constructor === Student);  // true 
 ```
@@ -276,6 +278,13 @@ try{
 ```
 ![原型](/Style/images/javascript/01.PNG)
 
+5. 获取原型对象的三种方法
+```js
+obj.__proto__
+obj.constructor.prototype
+Object.getPrototypeOf(obj)
+```
+
 #### 构造函数和原型组合模式(推荐用法)
 
 所有实例拥有自己的属性，但是共享对方法的引用
@@ -294,7 +303,25 @@ Person.prototype.getName = function(){
 }
 ```
 
-### 3.3 继承
+#### Class (ES6)
+```js
+class Person {
+    constructor (name,age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    sayName () {
+        console.log(this.name);
+    }
+
+    getName () {
+        return this.name;
+    }
+}
+```
+
+### 继承
 JavaScript 靠原型链实现继承
 
 #### 原型链
@@ -581,6 +608,7 @@ SuperType.prototype.sayName = function(){
 };
 
 function SubType(name){
+    // 继承内部属性
     SuperType.call(this,name);
 };
 
@@ -595,6 +623,7 @@ function inheritPrototype(subType,superType){
     proto.constructor = subType;
     subType.prototype = proto;
 };
+// 继承原型属性
 inheritPrototype(SubType,SuperType);
 
 SubType.prototype.sayColor = function(){
