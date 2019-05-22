@@ -328,7 +328,7 @@ JavaScript 靠原型链实现继承
 
 基本思想：利用原型让一个引用类型对象继承另一个引用类型对象的属性和方法。
 
-概念：每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针，而实例都包含一个指向原型对象的内部指针。如果我们让原型对象（*SubType.prototype*）等于另一个类型（*SuperType*）的实例，此时的原型对象（*SubType.prototype*）将包含一个指向另一个原型（*SuperType.prototype*）的指针，相应的，另一个原型（*SuperType.prototype*）中也包含着一个指向另一个构造函数（*SuperType*）的指针。假如另一个原型又是另一个类型的实例，如此层层递进，就构成了实例与原型的链条。这就是原型链。
+概念：每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针(constructor)，而实例都包含一个指向原型对象的内部指针(__proto__)。如果我们让原型对象（*SubType.prototype*）等于另一个类型（*SuperType*）的实例，此时的原型对象（*SubType.prototype*）将包含一个指向另一个原型（*SuperType.prototype*）的指针，相应的，另一个原型（*SuperType.prototype*）中也包含着一个指向另一个构造函数（*SuperType*）的指针。假如另一个原型又是另一个类型的实例，如此层层递进，就构成了实例与原型的链条。这就是原型链。
 
 ```js
 function SuperType(){
@@ -352,6 +352,12 @@ var ins = new SubType();
 console.log(ins.getSuperValue());   //true
 console.log(ins.constructor);   //SuperType; SubType.prototype.constructor 已被指向了 SuperType
 ```
+> 获取实例对象obj的原型对象,有三种方法
+> `obj.__proto__`
+> `obj.constructor.prototype`
+> `Object.getPrototypeOf(obj)`
+
+> ```var a = Object.create(obj)``` 实际上相当于将对象 a 的 __proto__ 属性改写成 obj
 
 ![原型链](/Style/images/javascript/02.PNG)
 
@@ -634,9 +640,5 @@ var a = new SubType("gx");
 ```
 
 结果：
-
-<<<<<<< HEAD
 ![寄生组合式继承](/Style/images/javascript/05.png)
-=======
-![寄生组合式继承](/Style/images/javascript/05.PNG)
->>>>>>> dev-basic
+
