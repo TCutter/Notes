@@ -1,31 +1,36 @@
 <!-- TOC -->
 
 - [Vue入门知识整理](#vue入门知识整理)
-  - [利用 vue-cli 新建工程](#利用-vue-cli-新建工程)
-  - [基本指令](#基本指令)
-    - [插值表达式 {{}}](#插值表达式-)
-    - [v-cloak](#v-cloak)
-    - [v-text](#v-text)
-    - [v-html](#v-html)
-    - [v-bind 属性绑定](#v-bind-属性绑定)
-    - [v-on: 事件绑定](#v-on-事件绑定)
-    - [v-model：数据双向绑定](#v-model数据双向绑定)
-    - [v-for：模板遍历](#v-for模板遍历)
-    - [v-if 和 v-show: 元素的隐藏和显示](#v-if-和-v-show-元素的隐藏和显示)
-    - [自定义指令](#自定义指令)
-  - [计算属性和侦听器](#计算属性和侦听器)
-    - [计算属性](#计算属性)
-    - [侦听器](#侦听器)
-  - [生命周期](#生命周期)
-    - [创建期间的生命周期函数](#创建期间的生命周期函数)
-    - [运行期间的生命周期函数](#运行期间的生命周期函数)
-    - [销毁期间的生命周期函数](#销毁期间的生命周期函数)
-  - [动画](#动画)
-    - [过渡类名](#过渡类名)
-    - [调用第三方动画库](#调用第三方动画库)
-    - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
-  - [Api](#api)
-    - [响应式方法](#响应式方法)
+    - [利用 vue-cli 新建工程](#利用-vue-cli-新建工程)
+    - [基本指令](#基本指令)
+        - [插值表达式 {{}}](#插值表达式-)
+        - [v-cloak](#v-cloak)
+        - [v-text](#v-text)
+        - [v-html](#v-html)
+        - [v-bind 属性绑定](#v-bind-属性绑定)
+        - [v-on: 事件绑定](#v-on-事件绑定)
+        - [v-model：数据双向绑定](#v-model数据双向绑定)
+        - [v-for：模板遍历](#v-for模板遍历)
+        - [v-if 和 v-show: 元素的隐藏和显示](#v-if-和-v-show-元素的隐藏和显示)
+        - [自定义指令](#自定义指令)
+    - [计算属性和侦听器](#计算属性和侦听器)
+        - [计算属性](#计算属性)
+        - [侦听器](#侦听器)
+    - [生命周期](#生命周期)
+        - [创建期间的生命周期函数](#创建期间的生命周期函数)
+        - [运行期间的生命周期函数](#运行期间的生命周期函数)
+        - [销毁期间的生命周期函数](#销毁期间的生命周期函数)
+    - [动画](#动画)
+        - [过渡类名](#过渡类名)
+        - [调用第三方动画库](#调用第三方动画库)
+        - [使用 transition-group 实现列表动画](#使用-transition-group-实现列表动画)
+    - [Api](#api)
+        - [响应式方法](#响应式方法)
+- [Ajax](#ajax)
+    - [get 请求](#get-请求)
+    - [post 请求](#post-请求)
+    - [JSONP](#jsonp)
+    - [axios (vue2.0)](#axios-vue20)
 
 <!-- /TOC -->
 
@@ -1040,3 +1045,45 @@ vm.user = Object.assign({}, vm.user, {
     tel: 'xxxxxx'
 })
 ```
+
+<!-- TOC -->
+
+- [Ajax](#ajax)
+  - [get 请求](#get-请求)
+  - [post 请求](#post-请求)
+  - [JSONP](#jsonp)
+  - [axiso (vue2.0)](#axiso-vue20)
+
+<!-- /TOC -->
+## Ajax
+
+首先需要引入 [vue-resource.js](https://github.com/pagekit/vue-resource/tree/master)  插件
+
+### get 请求
+```js
+this.$http.get(url,[config]).then(responce=>{
+    var result = responce.body; // responce.body即为服务器返回的数据
+},error=>{
+    
+})
+```
+
+### post 请求
+
+```js
+this.$http.post(url,body,[config]).then(responce=>{
+    
+},error=>{
+    
+})
+```
+
+### JSONP
+
+由于浏览器的安全性限制，默认不允许Ajax发起跨域（协议不同、域名不同、端口号不同）的请求。
+
+原理：通过动态创建script标签的形式，用script标签的src属性，代表api接口的url，因为script标签不存在跨域限制。JSONP只支持Get请求
+
+[ajax请求](Demo/04-Ajax/get.html)
+
+### axios (vue2.0)

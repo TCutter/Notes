@@ -44,9 +44,9 @@ div {
 ```
 
 ### box-sizing 属性
-#### content-box（默认）
+#### content-box（默认）(W3C 标准盒模型)
 此时设置的 width 和 height 是内容区域的宽高。盒子的实际宽度 = 设置的 width + padding + border
-#### border-box
+#### border-box (IE 盒模型)
 此时设置的 width 和 height 是盒子的总宽高。盒子的实际宽度 = 设置的 width
 
 ### box-shadow 边框阴影

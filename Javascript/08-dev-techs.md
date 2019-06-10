@@ -7,6 +7,7 @@
         - [获取数组中的最大最小值](#获取数组中的最大最小值)
         - [数组合并](#数组合并)
         - [数组复制](#数组复制)
+        - [`for in`、`Object.keys()`、`Object.getOwnPropertyNames()` 、`for of ` 的区别](#for-inobjectkeysobjectgetownpropertynames-for-of--的区别)
     - [DOM 相关](#dom-相关)
         - [window.open](#windowopen)
         - [event对象](#event对象)
@@ -19,7 +20,7 @@
         - [继承](#继承)
         - [call、apply和bind](#callapply和bind)
         - [URI编码](#uri编码)
-        - [Source Code](#source-code)
+        - [Inline SVG vs Icon Fonts](#inline-svg-vs-icon-fonts)
 
 <!-- /TOC -->
 ## 常用开发技巧
@@ -82,6 +83,19 @@ ES6用法： const a2 = [...a1];
 a2[0] = 2;
 a1 // [1, 2]
 ```
+
+#### `for in`、`Object.keys()`、`Object.getOwnPropertyNames()` 、`for of ` 的区别
+- `for in`:
+所有能够通过对象访问的、可枚举的属性，既包括存在于实例中的属性，也包括存在于原型中的属性。使用 `class` 和 `function` 创建的对象结果不同，`class` 中的方法无法遍历，`function 的 prototype` 方法可以遍历
+
+- `for of `:
+主要用于数组
+
+- `Object.keys()`:
+获取对象自身所有的可枚举的属性值，但不包括原型中的属性
+
+- `Object.getOwnPropertyNames()`:
+返回对象的所有自身属性的属性名（包括不可枚举的属性）组成的数组，但不会获取原型链上的属性
 
 ### DOM 相关
 #### window.open
@@ -225,176 +239,5 @@ Array.prototype.join.apply("abc",["|"]);
 
 	对所有非标准字符编码。主要用于对 URI 中的某一段进行编码
 
-#### Source Code
-```js
-/**
- * 对象、数组深拷贝
- * @param {Object} obj
- * @returns {Object}
- */
-function deepCopy (obj) {
-    let objClone = obj.constructor === Array ? [] : {}
-    if (obj && typeof obj === 'object') {
-        for (let key in obj) {
-            if (typeof obj[key] === 'object') {
-                objClone[key] = deepCopy(obj[key])
-            } else {
-                objClone[key] = obj[key]
-            }
-        }
-    }
-    return objClone
-}
-
-/**
- * 模拟 call
- * @param {*} context
- * @returns {*}
- */
-Function.prototype.call2 = function (context) {
-    var context = context || window
-    context.fn = this
-
-    var args = []
-    // 执行后 args为 ["arguments[1]", "arguments[2]", "arguments[3]"]
-    for (var i = 1, len = arguments.length; i < len; i++) {
-        args.push('arguments[' + i + ']')
-    }
-    var result = eval('context.fn(' + args + ')') // args 会自动调用 Array.toString()
-    delete context.fn
-    return result
-}
-
-/**
- * 模拟 apply
- * @param {*} context 
- * @param {Array} arr
- * @returns {*}
- */
-Function.prototype.apply2 = function (context, arr) {
-    var context = context || window
-    context.fn = this
-
-    var result = null
-    if (!arr) {
-        result = context.fn()
-    } else {
-        var args = []
-        for (var i = 1, len = arr.length; i < len; i++) {
-            args.push('arr[' + i + ']')
-        }
-        result = eval('context.fn(' + args + ')')
-    }
-    delete context.fn
-    return result
-}
-
-/**
- * 模拟 bind
- * @param {*} context
- * @returns {Function}
- */
-Function.prototype.bind2 = function (context) {
-    if (typeof this !== "function") {
-        throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
-    }
-    var self = this
-    // 获取bind2函数从第二个参数到最后一个参数
-    var args = Array.prototype.slice.call(arguments, 1)
-
-    var fBound = function () {
-        var bindArgs = Array.prototype.slice.call(arguments)
-        /**
-         * 当作为构造函数时，this 指向实例， 结果为 true;
-         * 当作为普通函数时，this 指向 window, 结果为 false
-         */
-        return self.apply(this instanceof fBound ? this : context, args.concat(bindArgs));
-    }
-
-    // 修改返回函数的 prototype 为绑定函数的 prototype，实例就可以继承绑定函数的原型中的值
-    fBound.prototype = Object.create(self.prototype)
-    fBound.prototype.constructor = fBound
-    return fBound
-}
-
-/**
- * 模拟 new
- * @returns {*}
- */
-
-function createObjIns () {
-    var Constructor = [].shift.call(arguments)
-    // 设置 obj.__proto__ = Constructor.prototype, 相当于复制 Constructor 原型上的属性
-    var obj = Object.create(Constructor.prototype)
-    // 设置内部属性，跟寄生组合式继承很像
-    var ret = Constructor.apply(obj, arguments)
-    // 我们还需要判断返回的值是不是一个对象，如果是一个对象，我们就返回这个对象，如果没有，我们该返回什么就返回什么。
-    return typeof ret === 'object' ? ret : obj;
-}
-
-/**
- * Generator 实现状态机
- */
-const clock = function* () {
-    while (true) {
-        yield true
-        yield false
-    }
-}
-
-/**
- * 函数防抖
- * @param {Function} fn 待执行函数
- * @param {Number} delay 延迟时间
- */
-function debounce (fn, delay) {
-    var timeout 
-    return function () {
-        var self = this
-        var args = arguments
-        clearTimeout(timeout)
-        timeout = setTimeout(function () {
-            fn.apply(self, args)
-        }, delay)
-    }
-}
-
-/**
- * 函数节流
- * @param {Function} fn 待执行函数
- * @param {Number} delay 间隔时间
- */
-function throttle (fn, delay) {
-    var timeout
-    var args // 取第一次还是最后一次的 args？？？写在这里表示是最后一次，形成一个闭包，凉羽大神用的也是最后一次
-    return function () {
-        var self = this
-        args = arguments // 闭包变量，每次执行都更新值
-        if (!timeout) {
-            timeout = setTimeout(function () {
-                fn.apply(self, args)
-                timeout = null
-            }, delay);
-        }        
-    }
-}
-
-/**
- * 类型检测
- */
-function types (obj) {
-    var classType = {}
-
-    'Boolean Number String Function Array Date RegExp Object Error'.split(' ').map(item => {
-        classType[`[object ${item}]`] = item.toLowerCase()
-    })
-
-    if (obj == null) {
-        return obj + ''
-    }
-
-    return typeof obj === 'object' || typeof obj === 'function'
-        ? classType[Object.prototype.toString().call(obj)] || 'object' // 引用类型
-        : typeof obj // 基本类型
-}
-```
+#### Inline SVG vs Icon Fonts
+[Inline SVG vs Icon Fonts](https://css-tricks.com/icon-fonts-vs-svg/)

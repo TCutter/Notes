@@ -1,20 +1,20 @@
 <!-- TOC -->
 
 - [四、 Ajax](#四-ajax)
-  - [Ajax](#ajax)
-    - [创建实例](#创建实例)
-    - [发送请求](#发送请求)
-    - [接受响应](#接受响应)
-    - [其他](#其他)
-    - [实例](#实例)
-  - [jQuery 中的 Ajax](#jquery-中的-ajax)
-    - [$.get() 和 $.post()](#get-和-post)
-    - [$.getScript() 和 $.getJSON()](#getscript-和-getjson)
-    - [$.ajax(options)](#ajaxoptions)
-  - [jsonp](#jsonp)
-    - [jquery](#jquery)
-    - [ES6](#es6)
-  - [HTTP](#http)
+    - [Ajax](#ajax)
+        - [创建实例](#创建实例)
+        - [发送请求](#发送请求)
+        - [接受响应](#接受响应)
+        - [其他](#其他)
+        - [实例](#实例)
+    - [jQuery 中的 Ajax](#jquery-中的-ajax)
+        - [$.get() 和 $.post()](#get-和-post)
+        - [$.getScript() 和 $.getJSON()](#getscript-和-getjson)
+        - [$.ajax(options)](#ajaxoptions)
+    - [jsonp](#jsonp)
+        - [jquery](#jquery)
+        - [ES6](#es6)
+    - [HTTP](#http)
 
 <!-- /TOC -->
 ## 四、 Ajax
@@ -60,6 +60,7 @@ var request = new XMLHttpRequest()
     ```js
     request.onreadystatechange = dosomething
     request.open('POST', 'file.txt', true)
+    // 如果想要使用post提交数据,必须添加此行
     xhr.setRequestHeader("Content-type", "application/json") // 数据类型信息
     request.send(JSON.stringify({name: 'cutter', age: '26'}))
     ```

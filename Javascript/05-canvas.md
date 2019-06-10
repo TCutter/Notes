@@ -1,16 +1,16 @@
 <!-- TOC -->
 
 - [五、Canvas](#五canvas)
-  - [5.1 基本用法](#51-基本用法)
-    - [定义](#定义)
-    - [使用](#使用)
-  - [绘图](#绘图)
-    - [属性](#属性)
-    - [基本图形](#基本图形)
-    - [变换](#变换)
-    - [绘制图像](#绘制图像)
-    - [效果](#效果)
-    - [WebGL](#webgl)
+    - [5.1 基本用法](#51-基本用法)
+        - [定义](#定义)
+        - [使用](#使用)
+    - [绘图](#绘图)
+        - [属性](#属性)
+        - [基本图形](#基本图形)
+        - [变换](#变换)
+        - [绘制图像](#绘制图像)
+        - [效果](#效果)
+        - [WebGL](#webgl)
 
 <!-- /TOC -->
 ## 五、Canvas
@@ -98,10 +98,10 @@ ctx.textAlign = 'left' // 设置文本对齐方式
   从 canvas 的 (dx, dy) 位置上开始绘制 img
 
 - drawImage(image, dx, dy, dw, dh) 
-  从 canvas 的 (dx, dy) 位置上以 （dwidth,dheight）的大小 开始绘制 img
+  从 canvas 的 (dx, dy) 位置上以 dw,dh 开始绘制 img
 
 - drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-  从 canvas 的 (dx, dy) 位置上以 （dwidth,dheight）的大小 开始绘制 img, img 从（sx, sy）坐标开始裁剪，裁剪大小为（swidth, sheight）
+  从 canvas 的 (dx, dy) 位置上以 （dw,dh）的大小 开始绘制 img, img 从（sx, sy）坐标开始裁剪，裁剪大小为（sw, s）
 
 ![drawImage](/Style/images/javascript/drawImage.png)
 

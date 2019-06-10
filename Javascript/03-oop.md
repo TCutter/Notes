@@ -34,9 +34,9 @@ ECMAScript中有两种属性：数据属性和访问器属性
 
     数据属性包含一个数据值的位置， 在这个位置可以读取和写入值。数据属性有4个特性：
 
-    - *configurable* : 能否同过 delete 删除属性，能否修改属性的特性，直接在对象上定义的属性（obj.name）默认值为 true
-    - *enumerable*：能否通过 for-in 返回的属性（对象通过 prototype 定义的属性该值为 false），直接在对象上定义的属性（obj.name）默认值为 true
-    - *writable*：能否修改属性值，直接在对象上定义的属性（obj.name）默认值为 true
+    - *configurable* : 能否同过 delete 删除属性，能否修改属性的特性，直接在对象上定义的属性（obj.name）默认值为 `false`
+    - *enumerable*：能否通过 for-in 返回的属性（对象通过 prototype 定义的属性该值为 false），直接在对象上定义的属性（obj.name）默认值为 `false`
+    - *writable*：能否修改属性值，直接在对象上定义的属性（obj.name）默认值为 `false`
     - *value*：属性的默认值。读取属性值时，从这个位置读取；写入属性值时，将新值保存到这个位置。默认为 undefined
     
     ```
