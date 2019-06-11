@@ -32,7 +32,7 @@
 ### margin
 1. 标准文档流中,竖直方向的margin不叠加，取较大的值**作为margin,水平方向的margin是可以叠加的
 2. margin的值可以为auto，表示自动。<font color="red">对于标准流的盒子</font>, 当left、right两个方向都是auto的时候，盒子居中了：`margin:0 auto;`
-3. 善于使用父元素的padding，而不是子元素的margin
+3. 善于使用父元素的 `padding`，而不是子元素的 `margin`
 
 ### 文字省略号
 ```css
@@ -48,6 +48,19 @@ div {
 此时设置的 width 和 height 是内容区域的宽高。盒子的实际宽度 = 设置的 width + padding + border
 #### border-box (IE 盒模型)
 此时设置的 width 和 height 是盒子的总宽高。盒子的实际宽度 = 设置的 width
+
+### BFC(块级格式化上下文)
+定义： 是块级盒布局出现的区域，也是浮动层元素进行交互的区域
+#### BFC 产生条件
+- 根元素
+- `float` 不为 `none`
+- `display` 为 `inline-block, table-cell, table-caption, flex, inline-flex`
+- `position` 为 `absolute/fixed`
+- `overflow` 不为 `visible`
+
+#### 应用
+1. 自适应两栏布局
+
 
 ### box-shadow 边框阴影
 ```css
