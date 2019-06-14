@@ -29,8 +29,18 @@
 3. 标准流中的文字不会被浮动的盒子遮挡住，形成“字围”效果。（文字就像水一样）
 4. `clear:left` 属性只能作用于自身
 
+#### 去除浮动影响，防止父级高度塌陷
+- 通过增加尾元素清除浮动
+```css
+:after {
+    clear: both;
+}
+```
+- 创建父级 BFC
+- 父级设置高度
+
 ### margin
-1. 标准文档流中,竖直方向的margin不叠加，取较大的值**作为margin,水平方向的margin是可以叠加的
+1. 标准文档流中,竖直方向的margin不叠加，**取较大的值**作为margin,水平方向的margin是可以叠加的
 2. margin的值可以为auto，表示自动。<font color="red">对于标准流的盒子</font>, 当left、right两个方向都是auto的时候，盒子居中了：`margin:0 auto;`
 3. 善于使用父元素的 `padding`，而不是子元素的 `margin`
 
@@ -50,7 +60,8 @@ div {
 此时设置的 width 和 height 是盒子的总宽高。盒子的实际宽度 = 设置的 width
 
 ### BFC(块级格式化上下文)
-定义： 是块级盒布局出现的区域，也是浮动层元素进行交互的区域
+定义： 是页面渲染一块独立的区域，是块级盒布局出现的区域，也是浮动层元素进行交互的区域。**里面的元素不会影响外面的元素**。
+
 #### BFC 产生条件
 - 根元素
 - `float` 不为 `none`
@@ -58,9 +69,24 @@ div {
 - `position` 为 `absolute/fixed`
 - `overflow` 不为 `visible`
 
-#### 应用
-1. 自适应两栏布局
+#### 特性
+1. `BFC` 的区域不会与 float 的元素区域重叠（1. 解决 `float` 元素设置后 `div` 遮挡（文字环绕）的问题； 2. 实现自适应两栏布局）
+2. 计算 `BFC` 的高度时，浮动子元素也参与计算（清除内部浮动）
+3. `Box` 垂直方向的距离由 `margin` 决定。属于同一个BFC的两个相邻 `Box` 的 `margin` 会发生重叠（将两个元素放在不同的容器中解决）
 
+### 层叠上下文
+元素提升为一个比较特殊的图层，在三维空间中 (z轴) 高出普通元素一等。
+
+触发条件：
+- 根层叠上下文(html)
+- `position`
+- css3属性
+    - flex
+    - transform
+    - opacity
+    - filter
+    - will-change （CSS3 新特性：GPU 渲染）
+    - -webkit-overflow-scrolling
 
 ### box-shadow 边框阴影
 ```css
@@ -86,6 +112,7 @@ box-shadow: 15px 21px 48px -2px #666 inset;
     - ease-out 减速
     - ease-in-out 先加速后减速
 - `transition-delay: 1s;` 过渡延迟。多长时间后再执行这个过渡动画
+- `transitionend` : 钩子函数，在完成过渡后触发
 
 ```css
 transition: 让哪些属性进行过度 过渡的持续时间 运动曲线 延迟时间;
