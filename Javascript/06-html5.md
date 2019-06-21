@@ -1,14 +1,14 @@
 <!-- TOC -->
 
 - [六、HTML5 API](#六html5-api)
-  - [跨文档消息传递](#跨文档消息传递)
-  - [WebWorker](#webworker)
-    - [WebWorker原理](#webworker原理)
-    - [WorkerGlobalScope全局上下文](#workerglobalscope全局上下文)
-    - [共享线程（Shared Worker）和专用线程（Dedicated Worker）](#共享线程shared-worker和专用线程dedicated-worker)
-    - [WebWorker之常用API](#webworker之常用api)
-    - [WebWorker优缺点：](#webworker优缺点)
-    - [WebWorker应用](#webworker应用)
+    - [跨文档消息传递](#跨文档消息传递)
+    - [WebWorker](#webworker)
+        - [WebWorker原理](#webworker原理)
+        - [WorkerGlobalScope全局上下文](#workerglobalscope全局上下文)
+        - [共享线程（Shared Worker）和专用线程（Dedicated Worker）](#共享线程shared-worker和专用线程dedicated-worker)
+        - [WebWorker之常用API](#webworker之常用api)
+        - [WebWorker优缺点：](#webworker优缺点)
+        - [WebWorker应用](#webworker应用)
 
 <!-- /TOC -->
 ##  六、HTML5 API
@@ -136,6 +136,7 @@ worker.onerror = function(e){
 1. 不能跨域加载JS（html主页面可以）
 2. worker内代码不能访问DOM
 3. 各个浏览器对Worker的实现不大一致，例如FF里允许worker中创建新的worker,而Chrome中就不行
+4. 无法加载本地资源
 
 #### WebWorker应用
 1. 后台计算：

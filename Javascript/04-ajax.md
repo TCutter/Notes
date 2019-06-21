@@ -15,6 +15,8 @@
         - [jquery](#jquery)
         - [ES6](#es6)
     - [HTTP](#http)
+        - [状态码](#状态码)
+    - [Websocket](#websocket)
 
 <!-- /TOC -->
 ## 四、 Ajax
@@ -256,7 +258,7 @@ ajax和jsonp的实质核心、区别联系
   - ajax通过服务端代理一样跨域
   - jsonp也不并不排斥同域的数据的获取
 
-jsonp的实现核心就是利用script标签的跨域能力。JSONP是一种非正式传输协议，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了
+jsonp的实现核心就是利用script标签的跨域能力。JSONP是一种非正式传输协议，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。 **缺点是只能支持 `get` 请求**
 
 #### ES6
 ```js
@@ -267,6 +269,57 @@ options:
 
 jsonp(url, options, callback(err, data));
 ```
+```js
+// 原理
+function dynamicLoadJs(url, callback) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    if (typeof callback === 'function') {
+        script.onload = script.onreadystatechange = function () {
+            if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
+                callback();
+                script.onload = script.onreadystatechange = null;
+            }
+        }
+    }
+    head.appendChild(script);
+}
+```
+> 其他跨域方法 ```Access-Control-Allow-Origin：*```
 
 ### HTTP
-  >TODO
+#### 状态码
+- 1xx: 接受，继续处理
+- 200: 成功，并返回数据
+- 203: 成为，但未授权
+- 204: 成功，无内容
+- 301: 永久移动，重定向
+- 302: 临时移动，可使用原有URI
+- 304: 资源未修改，可使用缓存
+- 305: 需代理访问
+- 400: 请求语法错误
+- 401: 要求身份认证
+- 403: 拒绝请求
+- 404: 资源不存在
+- 408: 请求超时
+- 500: 服务器错误
+- 502: 网络错误
+- 504: 网络超时
+- 505: HTTP版本不受支持
+
+### Websocket
+- 浏览器和服务器只需要要做一个握手的动作，在建立连接之后，双方可以在任意时刻，相互推送信息。同时，服务器与客户端之间交换的头信息很小
+- http和websocket的长连接区别:
+  - HTTP1.1通过使用Connection:keep-alive进行长连接，HTTP 1.1默认进行持久连接。在一次 TCP 连接中可以完成多个 HTTP 请求，但是对每个请求仍然要单独发 header，Keep-Alive不会永久保持连接，它有一个保持时间，可以在不同的服务器软件（如Apache）中设定这个时间。这种长连接是一种“伪链接”
+  - websocket的长连接，是一个真的 **全双工**。长连接第一次tcp链路建立之后，后续数据可以双方都进行发送，不需要发送请求头。
+
+  ```js
+  new WebSocket(url)
+  ws.onerror = fn
+  ws.onclose = fn
+  ws.onopen = fn
+  ws.onmessage = fn
+  ws.send()
+  ```

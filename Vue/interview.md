@@ -1,4 +1,23 @@
-### MVVM 和 MVC
+<!-- TOC -->
+
+- [Vue 相关](#vue-相关)
+    - [MVVM 设计模式](#mvvm-设计模式)
+    - [Vue 生命周期](#vue-生命周期)
+    - [Vue的双向数据绑定原理](#vue的双向数据绑定原理)
+    - [Proxy 相比于 defineProperty 的优势](#proxy-相比于-defineproperty-的优势)
+    - [vue-router 有哪几种导航守卫](#vue-router-有哪几种导航守卫)
+        - [全局导航守卫](#全局导航守卫)
+        - [路由独享守卫](#路由独享守卫)
+        - [组件内守卫](#组件内守卫)
+- [其他](#其他)
+    - [SSR（服务端渲染）](#ssr服务端渲染)
+        - [优点](#优点)
+        - [缺点](#缺点)
+
+<!-- /TOC -->
+## Vue 相关
+
+### MVVM 设计模式
 - `MVC`: `Modle-View-Controller`,用户操作view, 用户操作View去改变Controller，Controller改变Model, Model再直接根据业务代码显示在View上
 - `MVVM`: `Modle-View-ViewModel`,利用双向绑定技术，使得 Model 变化时，ViewModel 会自动更新，而 ViewModel 变化时，View 也会自动变化。`MVVM` 模式简化了界面与业务的依赖，解决了数据频繁更新
 
@@ -11,6 +30,8 @@
 6. `updated`: 更新后，组件DOM已经更新
 7. `beforeDestroy`: 销毁前，实例销毁之前调用。在这一步，实例仍然完全可用。（可以在这里清除定时器、或清除事件绑定。 **触发方法 `vm.$destroy()`**
 8. `destroyed`: 销毁后，所有的事件监听器被移除、所有的子实例被销毁 
+9. `activated`: keep-alive 组件激活时调用。
+10. `deactivated`: keep-alive 组件停用时调用。
 
 ### Vue的双向数据绑定原理
 采用数据劫持结合发布-订阅者模式的方法，通过 `Object.defineProperty()` 来劫持各个属性的 `setter`,`getter`, 在数据变动时发布消息给订阅者，触发相应的监听回调。
@@ -24,10 +45,11 @@
 数组变化也能监听到
 
 ### vue-router 有哪几种导航守卫
+
 #### 全局导航守卫
 1. `beforeEach`: 全局前置守卫，进入路由前调用
-2. `beforeResolve`: 全局解析守卫(2.5.0+) 在 `beforeRouteEnter` 调用之后调用
-3. `beforeEach`: 全局后置守卫，进入路由后调用
+2. `beforeResolve`: 全局解析守卫(2.5.0+) 在 `beforeRouteEnter` 调用之后调用。同时在所有组件内守卫和异步路由组件被解析之后
+3. `afterEach`: 全局后置守卫，进入路由后调用
 
 #### 路由独享守卫
 `beforeEnter`: 某些路由单独配置守卫
@@ -36,3 +58,16 @@
 1. `beforeRouteEnter`:  进入路由前, 组件实例还未创建，不能使用 `this`
 2. `beforeRouteUpdate`: 路由跳转但是两个路由复用了同一个组件，在当前路由跳转之前调用, 可以访问 `this`
 3. `beforeRouteLeave`: 离开该组件的对应路由时调用, 可以访问 `this`
+
+## 其他
+
+### SSR（服务端渲染）
+直接在服务端层获取数据，渲染出完成的 HTML 文件，直接返回给用户浏览器访问。
+
+#### 优点
+- 有利于SEO
+- 前端耗时少
+
+#### 缺点
+- 不利于前后端分离，开发效率低
+- 占用服务器端资源

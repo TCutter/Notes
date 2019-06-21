@@ -1,6 +1,33 @@
-# HTML 和 Css 相关知识
-## CSS
+<!-- TOC -->
+
+- [行内元素与块级元素](#行内元素与块级元素)
+    - [分类](#分类)
+    - [特性](#特性)
+    - [`display:inline-block`](#displayinline-block)
+- [浮动](#浮动)
+    - [去除浮动影响，防止父级高度塌陷](#去除浮动影响防止父级高度塌陷)
+- [margin](#margin)
+- [文字省略号](#文字省略号)
+- [box-sizing 属性](#box-sizing-属性)
+    - [content-box（默认）(W3C 标准盒模型)](#content-box默认w3c-标准盒模型)
+    - [border-box (IE 盒模型)](#border-box-ie-盒模型)
+- [BFC(块级格式化上下文)](#bfc块级格式化上下文)
+    - [BFC 产生条件](#bfc-产生条件)
+    - [特性](#特性-1)
+- [层叠上下文](#层叠上下文)
+- [box-shadow 边框阴影](#box-shadow-边框阴影)
+- [动画](#动画)
+    - [transition](#transition)
+    - [transform](#transform)
+    - [animation](#animation)
+- [弹性布局](#弹性布局)
+    - [容器属性](#容器属性)
+    - [Item 属性](#item-属性)
+
+<!-- /TOC -->
+
 ### 行内元素与块级元素
+
 #### 分类
 - 行内元素：`span, a, img`
 - 块级元素：`div, p, h系列, li, dt, dd`
@@ -129,54 +156,57 @@ transition: all 3s linear 0s;
 
 #### animation
 
-## 弹性布局
-### 容器属性
-#### flex-direction（主轴方向）
-- row 水平方向（默认值）
-- reverse-row 反转
-- column 垂直方向
-- reverse-column 反转列
+### 弹性布局
 
-#### flex-wrap（换行相关属性）
-#### flex-flow
+#### 容器属性
+
+1. flex-direction（主轴方向）
+    - row 水平方向（默认值）
+    - reverse-row 反转
+    - column 垂直方向
+    - reverse-column 反转列
+
+2. flex-wrap（换行相关属性）
+
+3. flex-flow
 `flex-direction` 和 `flex-flow` 的简写形式
 
-#### justify-content（子元素在主轴上的对齐方式）
-- flex-start 从主轴的起点对齐（默认值）
-- flex-end 从主轴的终点对齐
-- center 居中对齐
-- space-around 在父盒子里平分
-- space-between 两端对齐 平分
+4. justify-content（子元素在主轴上的对齐方式）
+    - flex-start 从主轴的起点对齐（默认值）
+    - flex-end 从主轴的终点对齐
+    - center 居中对齐
+    - space-around 在父盒子里平分
+    - space-between 两端对齐 平分
 
-#### align-items（子元素在侧轴上的对齐方式）
-- flex-start 从侧轴开始的方向对齐
-- flex-end 从侧轴结束的方向对齐
-- baseline 基线 默认同flex-start
-- center 中间对齐
-- stretch 拉伸
+5. align-items（子元素在侧轴上的对齐方式）
+    - flex-start 从侧轴开始的方向对齐
+    - flex-end 从侧轴结束的方向对齐
+    - baseline 基线 默认同flex-start
+    - center 中间对齐
+    - stretch 拉伸
 
-#### align-content（多根轴线的对齐方式）
+6. align-content（多根轴线的对齐方式）
 
-### Item 属性
-#### order（排列顺序）
+#### Item 属性
+1. order（排列顺序）
 默认为0
 
-#### flex-grow（放大比例）
-1. 默认为0，即如果存在剩余空间，也不放大
-2. 如果所有项目的flex-grow属性都为1，则它们将等分剩余空间
+2. flex-grow（放大比例）
+- 默认为0，即如果存在剩余空间，也不放大
+- 如果所有项目的flex-grow属性都为1，则它们将等分剩余空间
 
-#### flex-shrink（缩小比例）
-1. 默认为1，即如果空间不足，该项目将缩小
-2. 所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小
+3. flex-shrink（缩小比例）
+- 默认为1，即如果空间不足，该项目将缩小
+- 所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小
 
-#### flex-basis（分配多余空间之前，项目占据的主轴空间）
-1. 默认值为auto，即项目的本来大小
-2. 可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间
+4. flex-basis（分配多余空间之前，项目占据的主轴空间）
+- 默认值为auto，即项目的本来大小
+- 可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间
 
-#### flex
-1. `flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`
-2. `auto (1 1 auto)`
-3. `none (0 0 auto)`
+5. flex
+- `flex-grow`, `flex-shrink` 和 `flex-basis`的简写，默认值为`0 1 auto`
+- `auto (1 1 auto)`
+- `none (0 0 auto)`
 
-#### align-self
+6. align-self
 允许单个项目有与其他项目不一样的对齐方式，可覆盖`align-items`属性

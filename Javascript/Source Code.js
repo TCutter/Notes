@@ -3,7 +3,7 @@
  * @author TCutter
  *
  * Created at     : 2019-06-13 16:03:56 
- * Last modified  : 2019-06-14 11:21:28
+ * Last modified  : 2019-06-21 17:35:34
  */
 
 
@@ -252,7 +252,9 @@ function add (...args) {
 }
 
 /**
- * 插入排序
+ * 插入排序: 将元素插入到已排序好的数组中
+ * 平均时间复杂度、最坏时间复杂度、空间复杂度、是否稳定
+ * O(n^2)，O(n^2), O(1),稳定
  * @param {Array} arr 
  */
 function insertSort (arr) {
@@ -272,6 +274,7 @@ function insertSort (arr) {
 
 /**
  * 快速排序
+ * O(nlogn), O(n^2), O(nlogn),不稳定
  * @param {Array} arr 
  */
 function quickSort (arr) {
@@ -294,6 +297,7 @@ function quickSort (arr) {
 
 /**
  * 冒泡排序
+ * O(n^2), O(n^2), O(1),稳定
  * @param {Array} arr 
  */
 function bubbleSort (arr) {
