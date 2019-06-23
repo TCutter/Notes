@@ -1,37 +1,39 @@
 <!-- TOC -->
 
 - [六、 DOM 和 BOM](#六-dom-和-bom)
-  - [6.1 window 对象](#61-window-对象)
-    - [框架](#框架)
-    - [窗口大小与位置](#窗口大小与位置)
-    - [导航和打开窗口](#导航和打开窗口)
-    - [setTimeout 和 setInterval](#settimeout-和-setinterval)
-    - [系统对话框](#系统对话框)
-  - [6.2 location 对象](#62-location-对象)
-    - [查询字符串](#查询字符串)
-    - [位置操作](#位置操作)
-  - [6.3 navigator 对象](#63-navigator-对象)
-  - [6.4 history 对象](#64-history-对象)
-  - [6.5 节点类型](#65-节点类型)
-    - [Node 类型（基类型）](#node-类型基类型)
-    - [Element 类型](#element-类型)
-    - [Text 类型](#text-类型)
-    - [Document 类型](#document-类型)
-  - [6.6 动态脚本/样式](#66-动态脚本样式)
-  - [6.7 其他方法](#67-其他方法)
-    - [classList](#classlist)
-    - [焦点管理](#焦点管理)
-    - [自定义属性](#自定义属性)
-    - [插入文档](#插入文档)
-    - [scrollIntoView](#scrollintoview)
-    - [元素样式](#元素样式)
-    - [元素大小](#元素大小)
+  - [BOM](#bom)
+    - [6.1 window 对象](#61-window-对象)
+      - [框架](#框架)
+      - [窗口大小与位置](#窗口大小与位置)
+      - [导航和打开窗口](#导航和打开窗口)
+      - [setTimeout 和 setInterval](#settimeout-和-setinterval)
+      - [系统对话框](#系统对话框)
+    - [6.2 location 对象](#62-location-对象)
+      - [查询字符串](#查询字符串)
+      - [位置操作](#位置操作)
+    - [6.3 navigator 对象](#63-navigator-对象)
+    - [6.4 history 对象](#64-history-对象)
+  - [DOM](#dom)
+    - [6.5 节点类型](#65-节点类型)
+      - [Node 类型（基类型）](#node-类型基类型)
+      - [Element 类型](#element-类型)
+      - [Text 类型](#text-类型)
+      - [Document 类型](#document-类型)
+    - [6.6 动态脚本/样式](#66-动态脚本样式)
+    - [6.7 其他方法](#67-其他方法)
+      - [classList](#classlist)
+      - [焦点管理](#焦点管理)
+      - [自定义属性](#自定义属性)
+      - [插入文档](#插入文档)
+      - [scrollIntoView](#scrollintoview)
+      - [元素样式](#元素样式)
+      - [元素大小](#元素大小)
 
 <!-- /TOC -->
 
-## 六、 DOM 和 BOM
+# 六、 DOM 和 BOM
 
-BOM  
+## BOM  
 浏览器对象模型
     
 ### 6.1 window 对象
@@ -86,18 +88,18 @@ console.log(name); //"throw an error"
 
 #### 窗口大小与位置
 
-1. window.innerHeight:表示可见区域高度（包括滚动条）
-2. window.outerHeight:浏览器窗口大小
-3. document.documentElement.clientHeight:可见区域高度（不包括滚动条）
-4. document.documentElement.offsetHeight:与 document.documentElement.clientHeight 一样
-5. document.documentElement.scrollHeight:获得网页正文全文高和宽，包含边线宽度。
-6. document.body.clientHeight（clientWidth）:首先clientWidth获得的值等于document.documentElement.offsetWidth剪去body边线宽度，而clientHeight获得的是整个 body (网页正文全文)的高度减去边线宽度。
-7. document.body.offsetHeight（offsetWidth）:获得的值等于document.body.clientHeight（clientWidth）加上body的边线（border）宽度，即这两个值取到到的包含边线宽度。
-8. document.body.scrollHeight:获得网页正文全文高和宽，包含边线宽度
-9. document.body.scrollTop:浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离。
-10. window.screenTop: 窗口相对于屏幕上边的位置
-11. window.screen.height：屏幕分辨率的高度。
-12. window.screen.availHeight：屏幕可用工作区高度。
+1. `window.innerHeight`:表示可见区域高度
+2. `window.outerHeight`:浏览器窗口大小
+3. `document.documentElement.clientHeight`:可见区域高度（不包括滚动条）
+4. `document.documentElement.offsetHeight:`与 document.documentElement.clientHeight 一样
+5. `document.documentElement.scrollHeight`:获得网页正文全文高和宽，包含边线宽度。
+6. `document.body.clientHeight（clientWidth）`:首先clientWidth获得的值等于document.documentElement.offsetWidth剪去body边线宽度，而clientHeight获得的是整个 body (网页正文全文)的高度减去边线宽度。
+7. `document.body.offsetHeight（offsetWidth）`:获得的值等于document.body.clientHeight（clientWidth）加上body的边线（border）宽度，即这两个值取到到的包含边线宽度。
+8. `document.body.scrollHeight`:获得网页正文全文高和宽，包含边线宽度
+9. `document.body.scrollTop`:浏览器窗口顶部与文档顶部之间的距离，也就是滚动条滚动的距离。
+10. `window.screenTop`: 窗口相对于屏幕上边的位置
+11. `window.screen.height`：屏幕分辨率的高度。
+12. `window.screen.availHeight`：屏幕可用工作区高度。
 
 #### 导航和打开窗口
 
@@ -151,6 +153,7 @@ JS是一个单线程语言,代码运行是其有一个执行队列，setTimeout 
 #### 查询字符串
 
 以 bing 上某网站为例
+
 |属性|例子|说明|
 |-|-|-|
 |href|"https://cn.bing.com/search?q=ddd&qs=n&form=QBLH&sp=-1&pq=ddd&sc=8-3&sk=&cvid=181222#content"|完整的URL路径（同 location.toString()）
@@ -185,8 +188,7 @@ history.back(); //后退一页
 history.forward(); //前进一页
 ```
 
-
-DOM  
+## DOM  
 文档对象模型
 
 ### 6.5 节点类型
@@ -221,7 +223,7 @@ swicth(someNode.nodeType){
     - childNodes 中的每个节点都互为同胞节点，可以通过 `previousSibling` 和 `nextSibling` 访问.第一个节点的 previousSibling 和 最后一个节点都 nextSibling 都为 null
     - 父节点的 firstChild 和 lastChild 属性分别等于 childNodes 的第一个和最后一个节点
 
-        ![节点关系](/Style/images/javascript/06.PNG)
+    ![节点关系](/Style/images/javascript/06.PNG)
 
     - 新增方法：专门用来操作 Element 类型的节点
         - childElementCount:子元素的个数；
@@ -255,10 +257,10 @@ someNode.cloneNode(true);
 ```
 
 #### Element 类型
-- nodeType 为 1
-- nodeValue 为 null 
-- nodeName（或 tagName） 为元素标签名
-- parentNode 是一个 Element 或 Document
+- `nodeType` 为 1
+- `nodeValue` 为 null 
+- `nodeName`（或 `tagName`） 为元素标签名
+- `parentNode` 是一个 `Element` 或 `Document`
 
 1. HTML 元素
 所有 HTML 元素 都由 HTMLElement 类型表示，HTMLElement 继承自 Element 类型并添加了一些方法。这些属性分别对应于 HTML 元素都存在的标准特性:
@@ -292,10 +294,10 @@ let span = document.createElement('span');
 ```
 
 #### Text 类型
-- nodeType 为 3
-- nodeValue 为 节点包含的文本内容
-- nodeName 为 "#text"
-- parentNode 是一个 Element
+- `nodeType` 为 3
+- `nodeValue` 为 节点包含的文本内容
+- `nodeName` 为 "#text"
+- `parentNode` 是一个 Element
 - 没有子节点
 
 1. 创建文本节点
@@ -320,10 +322,10 @@ div.normalize();    // 合并文本节点
 ```
 
 #### Document 类型
-- nodeType 为 9
-- nodeValue 为 nul
-- nodeName 为 "#document"
-- parentNode null
+- `nodeType` 为 9
+- `nodeValue` 为 nul
+- `nodeName` 为 "#document"
+- `parentNode` 为 null
 
 1. 文档信息
 
@@ -368,7 +370,7 @@ function loadStyle(src){
 
 ### 6.7 其他方法
 #### classList
-node.classList 返回一个类名数组
+`node.classList` 返回一个类名数组
 - add(value):添加
 - contains(value):查询
 - remove(value):删除
@@ -413,8 +415,8 @@ document.hasFocus(); // 判断当前文档是否获取了焦点
 ```js
 let div = document.getElementsByTagName('div')[0];
 
-div.scrollIntoView(true); // 同 div.scrollIntoView();  元素顶部与浏览器视口顶部对齐
-div.scrollIntoView(false); // div.scrollIntoView();  尽可能的全部显示文档到视口中
+div.scrollIntoView(true); // 元素顶部与浏览器视口顶部对齐
+div.scrollIntoView(false); //  尽可能的全部显示文档到视口中
 ```
 
 #### 元素样式

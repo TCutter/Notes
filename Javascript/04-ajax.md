@@ -1,22 +1,21 @@
 <!-- TOC -->
 
 - [四、 Ajax](#四-ajax)
-    - [Ajax](#ajax)
-        - [创建实例](#创建实例)
-        - [发送请求](#发送请求)
-        - [接受响应](#接受响应)
-        - [其他](#其他)
-        - [实例](#实例)
-    - [jQuery 中的 Ajax](#jquery-中的-ajax)
-        - [$.get() 和 $.post()](#get-和-post)
-        - [$.getScript() 和 $.getJSON()](#getscript-和-getjson)
-        - [$.ajax(options)](#ajaxoptions)
-    - [jsonp](#jsonp)
-        - [jquery](#jquery)
-        - [ES6](#es6)
-    - [HTTP](#http)
-        - [状态码](#状态码)
-    - [Websocket](#websocket)
+  - [Ajax](#ajax)
+    - [创建实例](#创建实例)
+    - [发送请求](#发送请求)
+    - [接受响应](#接受响应)
+    - [其他](#其他)
+    - [实例](#实例)
+  - [jQuery 中的 Ajax](#jquery-中的-ajax)
+    - [$.get() 和 $.post()](#get-和-post)
+    - [$.getScript() 和 $.getJSON()](#getscript-和-getjson)
+    - [$.ajax(options)](#ajaxoptions)
+  - [jsonp](#jsonp)
+    - [ES6](#es6)
+  - [HTTP](#http)
+    - [状态码](#状态码)
+  - [Websocket](#websocket)
 
 <!-- /TOC -->
 ## 四、 Ajax
@@ -37,13 +36,13 @@ var request = new XMLHttpRequest()
 ```
 
 #### 发送请求
-1. onreadysatechange
-事件监听函数，每当服务器向客户端发送一个更新时就会触发 onreadysatechange 方法
+1. `onreadystatechange`
+事件监听函数，每当服务器向客户端发送一个更新时就会触发 `onreadystatechange` 方法
 
 2. open(type, url, async)
   - type: 请求类型
-    - get：***将数据附加在URL上发送数据，对数据的大小有限制，而且由于数据在URL上所以安全性不够好。一般情况不发送数据是用GET。还有如果要对表单的结果页面加书签必须用GET***
-     - post：***对数据大小的限制比GET宽松。数据作为请求的一部分发送，因此数据对用户不可见；***
+    - get：***将数据附加在URL上发送数据，对数据的大小有限制，而且由于数据在URL上所以安全性不够好。一般情况不发送数据时用 `GET`。还有如果要对表单的结果页面加书签必须用 `GET`***
+     - post：***对数据大小的限制比 `GET` 宽松。数据作为请求的一部分发送，因此数据对用户不可见；***
   - url: 请求路径
   - async: true（异步）, false(同步)
 
@@ -68,6 +67,7 @@ var request = new XMLHttpRequest()
     ```
     
 4. setRequestHeader: 发送首部信息
+
     |name|说明|
     |--|--|
     |Accept|浏览器能够处理的数据类型|
@@ -99,7 +99,7 @@ var request = new XMLHttpRequest()
 3. response
   - responseText: 文本数据
   - responseXML: XML 数据，当响应的内容类型是 text/xml 或 application/xml 时数据会保存到这个属性中
-  - response: 其他（如设置  request.responseType = 'json', request.responseType = 'arraybuffer' 时）
+  - response: 其他（如设置 `request.responseType = 'json', request.responseType = 'arraybuffer'` 时）
 
 #### 其他
 1. load 事件（新的语法）
@@ -233,9 +233,6 @@ jsonp 是利用 script 标签可以跨域的特性来实现跨域的
 
 jsonp 是前端的跨域，如果服务器已经设置了允许跨域，那么可以直接使用 ajax 而不用声明 jsonp; 反之，如果服务器没有设置允许跨域，那么前端需要使用 jsonp
 
-使用方法
-
-#### jquery
 jsonp是一个非官方协议，它通过JavaScript Callback的形式实现跨域访问，由于Json只是一种含有简单括号结构的纯文本，因此许多通道都可以交换Json消息，而由于同源策略的限制，开发人员无法在与外部服务器通信的时候使用XMLHttpRequest，而JSONP是一种可以绕过同源策略的方法，从服务器端直接返回可执行的JS函数或者JS对象。
 ```
 $.jsonp({
@@ -272,7 +269,6 @@ jsonp(url, options, callback(err, data));
 ```js
 // 原理
 function dynamicLoadJs(url, callback) {
-    var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
@@ -284,7 +280,7 @@ function dynamicLoadJs(url, callback) {
             }
         }
     }
-    head.appendChild(script);
+    document.head.appendChild(script);
 }
 ```
 > 其他跨域方法 ```Access-Control-Allow-Origin：*```
@@ -293,7 +289,7 @@ function dynamicLoadJs(url, callback) {
 #### 状态码
 - 1xx: 接受，继续处理
 - 200: 成功，并返回数据
-- 203: 成为，但未授权
+- 203: 成功，但未授权
 - 204: 成功，无内容
 - 301: 永久移动，重定向
 - 302: 临时移动，可使用原有URI

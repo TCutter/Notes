@@ -1,24 +1,24 @@
 <!-- TOC -->
 
 - [Vue 相关](#vue-相关)
-    - [MVVM 设计模式](#mvvm-设计模式)
-    - [Vue 生命周期](#vue-生命周期)
-    - [Vue的双向数据绑定原理](#vue的双向数据绑定原理)
-    - [Proxy 相比于 defineProperty 的优势](#proxy-相比于-defineproperty-的优势)
-    - [vue-router 有哪几种导航守卫](#vue-router-有哪几种导航守卫)
-        - [全局导航守卫](#全局导航守卫)
-        - [路由独享守卫](#路由独享守卫)
-        - [组件内守卫](#组件内守卫)
+  - [MVVM 设计模式](#mvvm-设计模式)
+  - [Vue 生命周期](#vue-生命周期)
+  - [Vue的双向数据绑定原理](#vue的双向数据绑定原理)
+  - [Proxy 相比于 defineProperty 的优势](#proxy-相比于-defineproperty-的优势)
+  - [vue-router 有哪几种导航守卫](#vue-router-有哪几种导航守卫)
+    - [全局导航守卫](#全局导航守卫)
+    - [路由独享守卫](#路由独享守卫)
+    - [组件内守卫](#组件内守卫)
 - [其他](#其他)
-    - [SSR（服务端渲染）](#ssr服务端渲染)
-        - [优点](#优点)
-        - [缺点](#缺点)
+  - [SSR（服务端渲染）](#ssr服务端渲染)
+    - [优点](#优点)
+    - [缺点](#缺点)
 
 <!-- /TOC -->
 ## Vue 相关
 
 ### MVVM 设计模式
-- `MVC`: `Modle-View-Controller`,用户操作view, 用户操作View去改变Controller，Controller改变Model, Model再直接根据业务代码显示在View上
+- `MVC`: `Modle-View-Controller`,用户操作View去改变Controller，Controller改变Model, Model再直接根据业务代码显示在View上
 - `MVVM`: `Modle-View-ViewModel`,利用双向绑定技术，使得 Model 变化时，ViewModel 会自动更新，而 ViewModel 变化时，View 也会自动变化。`MVVM` 模式简化了界面与业务的依赖，解决了数据频繁更新
 
 ### Vue 生命周期

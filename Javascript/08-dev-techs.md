@@ -1,26 +1,27 @@
 <!-- TOC -->
 
 - [常用开发技巧](#常用开发技巧)
-    - [数组](#数组)
-        - [获取数组中的随机项](#获取数组中的随机项)
-        - [类数组对象调用数组方法](#类数组对象调用数组方法)
-        - [获取数组中的最大最小值](#获取数组中的最大最小值)
-        - [数组合并](#数组合并)
-        - [数组复制](#数组复制)
-        - [`for in`、`Object.keys()`、`Object.getOwnPropertyNames()` 、`for of ` 的区别](#for-inobjectkeysobjectgetownpropertynames-for-of--的区别)
-    - [DOM 相关](#dom-相关)
-        - [window.open](#windowopen)
-        - [event对象](#event对象)
-        - [延迟脚本](#延迟脚本)
-    - [Others](#others)
-        - [简化if语句](#简化if语句)
-        - [避免使用new操作符](#避免使用new操作符)
-        - [遍历对象属性](#遍历对象属性)
-        - [JS 静态成员变量（static member variable）](#js-静态成员变量static-member-variable)
-        - [继承](#继承)
-        - [call、apply和bind](#callapply和bind)
-        - [URI编码](#uri编码)
-        - [Inline SVG vs Icon Fonts](#inline-svg-vs-icon-fonts)
+  - [数组](#数组)
+    - [获取数组中的随机项](#获取数组中的随机项)
+    - [乱序](#乱序)
+    - [类数组对象调用数组方法](#类数组对象调用数组方法)
+    - [获取数组中的最大最小值](#获取数组中的最大最小值)
+    - [数组合并](#数组合并)
+    - [数组复制](#数组复制)
+    - [`for in`、`Object.keys()`、`Object.getOwnPropertyNames()` 、`for of ` 的区别](#for-inobjectkeysobjectgetownpropertynames-for-of--的区别)
+  - [DOM 相关](#dom-相关)
+    - [window.open](#windowopen)
+    - [event对象](#event对象)
+    - [延迟脚本](#延迟脚本)
+    - [异步脚本](#异步脚本)
+  - [Others](#others)
+    - [简化if语句](#简化if语句)
+    - [避免使用new操作符](#避免使用new操作符)
+    - [遍历对象属性](#遍历对象属性)
+    - [JS 静态成员变量（static member variable）](#js-静态成员变量static-member-variable)
+    - [call、apply和bind](#callapply和bind)
+    - [URI编码](#uri编码)
+    - [Inline SVG vs Icon Fonts](#inline-svg-vs-icon-fonts)
 
 <!-- /TOC -->
 ## 常用开发技巧
@@ -30,6 +31,12 @@
 
 ```javascript
 var temp = array[Math.floor(Math.random() * array.length)];
+```
+#### 乱序
+```js
+array.sort(function() {
+    return Math.random() - 0.5
+})
 ```
 
 #### 类数组对象调用数组方法
@@ -100,19 +107,18 @@ a1 // [1, 2]
 ### DOM 相关
 #### window.open
 
-	chrome60开始取消了对顶部框架导航（top-frame navigation）的支持，直接使用window.open会报错：
-	```Not allowed to navigate top frame to data URL ```
+chrome60开始取消了对顶部框架导航（top-frame navigation）的支持，直接使用window.open会报错：
+`Not allowed to navigate top frame to data URL`
 
-	[需要将数据放到iframe中](https://stackoverflow.com/questions/45493234/jspdf-not-allowed-to-navigate-top-frame-to-data-url)
+[需要将数据放到iframe中](https://stackoverflow.com/questions/45493234/jspdf-not-allowed-to-navigate-top-frame-to-data-url)
 
-	```javascript
-	 var canvasConvertResult = canvas.toDataURL('image/png');
-	 var iframe = "<iframe width='100%' height='100%' src='" + canvasConvertResult + "'></iframe>"
-    var x = window.open();
-    x.document.open();
-    x.document.write(iframe);
-    x.document.close();
-	```
+```javascript
+var canvasConvertResult = canvas.toDataURL('image/png');
+var iframe = "<iframe width='100%' height='100%' src='" + canvasConvertResult + "'></iframe>"var x = window.open();x.document.open();
+x.document.write(iframe);
+x.document.close();
+```
+
 #### event对象
 
 a. 移动端event
@@ -147,6 +153,12 @@ b. event坐标
 ```
 脚本立即下载，但是会被延迟到整个页面都解析完毕后再运行。
 
+#### 异步脚本
+```javascript
+<script type='test/javascript' async src='example.js'></script>
+```
+使用另一个进程下载脚本，下载时不会阻塞渲染。
+下载完成后暂停HTML解析，马上执行脚本
 
 ### Others
 #### 简化if语句
@@ -209,9 +221,6 @@ People.prototype.getHeight = function(){
 People.language = "Chineses";
 ````
 [如何在Javascript中创建静态变量](https://stackoverflow.com/questions/1535631/static-variables-in-javascript)
-
-#### 继承
-[继承](https://johnresig.com/blog/simple-javascript-inheritance/)
 
 #### call、apply和bind
 

@@ -1,14 +1,14 @@
 <!-- TOC -->
 
 - [六、HTML5 API](#六html5-api)
-    - [跨文档消息传递](#跨文档消息传递)
-    - [WebWorker](#webworker)
-        - [WebWorker原理](#webworker原理)
-        - [WorkerGlobalScope全局上下文](#workerglobalscope全局上下文)
-        - [共享线程（Shared Worker）和专用线程（Dedicated Worker）](#共享线程shared-worker和专用线程dedicated-worker)
-        - [WebWorker之常用API](#webworker之常用api)
-        - [WebWorker优缺点：](#webworker优缺点)
-        - [WebWorker应用](#webworker应用)
+  - [跨文档消息传递](#跨文档消息传递)
+  - [WebWorker](#webworker)
+    - [WebWorker原理](#webworker原理)
+    - [WorkerGlobalScope全局上下文](#workerglobalscope全局上下文)
+    - [共享线程（Shared Worker）和专用线程（Dedicated Worker）](#共享线程shared-worker和专用线程dedicated-worker)
+    - [WebWorker之常用API](#webworker之常用api)
+    - [WebWorker优缺点：](#webworker优缺点)
+    - [WebWorker应用](#webworker应用)
 
 <!-- /TOC -->
 ##  六、HTML5 API
@@ -127,7 +127,7 @@ worker.onerror = function(e){
 #### WebWorker优缺点：
 优点：
 1. 可以加载一个JS进行大量的复杂计算而不挂起主进程，并通过postMessage，onmessage进行通信
-2. 可以在worker中通过importScripts(url)加载另外的脚本文件
+2. 可以在worker中通过 `importScripts(url)` 加载另外的脚本文件
 3. 可以使用 setTimeout(), clearTimeout(), setInterval(), and clearInterval()
 4. 可以使用XMLHttpRequest来发送请求
 5. 可以访问navigator的部分属性

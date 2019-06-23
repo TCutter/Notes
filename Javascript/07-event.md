@@ -13,7 +13,7 @@
   - [7.3 事件对象（event）](#73-事件对象event)
     - [DOM 中的事件对象](#dom-中的事件对象)
     - [IE 中的事件对象](#ie-中的事件对象)
-    - [[鼠标位置](08-dev-techs.md)](#鼠标位置08-dev-techsmd)
+    - [[鼠标位置](08-dev-techs.md#event对象)](#鼠标位置08-dev-techsmdevent对象)
 
 <!-- /TOC -->
 ## 七、事件
@@ -117,6 +117,4 @@ btn.detachEvent('onclick', myClick)
 |srcElement|效果与 target 一样|
 |type|事件类型|
 
-#### [鼠标位置](08-dev-techs.md)
-
->Todo
+#### [鼠标位置](08-dev-techs.md#event对象)
