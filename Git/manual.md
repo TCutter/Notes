@@ -131,5 +131,3 @@ $ git push -u origin master
 ```bash
 $ git clone git@github.com:TCutter/TCutter.github.io.git
 ```
-
-## 分支管理
